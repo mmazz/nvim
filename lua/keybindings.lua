@@ -1,5 +1,5 @@
- local opts = {noremap = true, silent = false}
-
+local opts = {noremap = true, silent = false}
+vim.g.mapleader = " "
 vim.keymap.set({ "n", "i", "v", "s" }, "<c-s>", '<cmd>w<cr>', opts)
 vim.keymap.set({ "n", "i", "v" }, "<c-q>", '<cmd>wq<cr>', opts)
 vim.keymap.set({ "n", "i", "v" }, "<Esc><Esc>", '<cmd>nohlsearch<cr>', opts)
@@ -22,9 +22,18 @@ vim.keymap.set({ "n" }, "<c-j>", ":cprev<CR>", opts)
 
 vim.keymap.set({ "n" }, "<leader>c", "<Esc>:w! | !compiler '<c-r>%'<CR>", opts)
 
---vim.keymap.set({ "n" }, "<leader>ff", "require('telescope.builtin').find_files()<CR>", opts)
+vim.keymap.set({ "n" }, "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fl", "<cmd>Telescope live_grep<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fg", "<cmd>Telescope git_files<cr>", opts)
+vim.keymap.set({ "n" }, "<c-p>", "<cmd>Telescope git_files<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fs", "<cmd>Telescope grep_string<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fd", "<cmd>lua require('telescope.builtin').find_files()<CR>", opts)
 
-
+--nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+--nnoremap <leader>fb <cmd>Telescope buffers<cr>
+--nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 vim.keymap.set({ "n" }, "<leader>z", "<Esc>:Centerpad<CR>", opts)
 
 --nnoremap ff :lua require('telescope.builtin').find_files()<CR>
