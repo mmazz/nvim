@@ -1,3 +1,5 @@
+
+vim.g.snippets = "luasnip"
 local opt = vim.opt
 opt.termguicolors = true
 

@@ -1,9 +1,11 @@
 require('keybindings')
 require('packages')
 require('config')
+require('mati/luasnip')
 
 
 require'colorizer'.setup()
+
 require('onedark').setup {
     style = 'darker'
 }
@@ -84,6 +86,11 @@ for _, server in ipairs(servers) do install_server(server) end
 local cmp = require'cmp'
 
   cmp.setup({
+    snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
     mapping = {
       ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
       ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
@@ -129,11 +136,11 @@ local cmp = require'cmp'
   })
 
   -- Setup lspconfig.
---  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
---  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
---  require('lspconfig')['sumneko_lua'].setup {
---    capabilities = capabilities
---  }
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+ -- require('lspconfig')['sumneko_lua'].setup {
+   -- capabilities = capabilities
+  --}
 
 require('telescope').setup{
 }
@@ -168,6 +175,8 @@ require'lualine'.setup({
   extensions = {}
 
 })
+
+
 
 vim.cmd( [[
 augroup latex_au
