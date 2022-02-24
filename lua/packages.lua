@@ -24,6 +24,11 @@ require('packer').startup(function()
     use 'kyazdani42/nvim-web-devicons'
     use 'kassio/neoterm'
     use 'smithbm2316/centerpad.nvim'
+    use {'lewis6991/spellsitter.nvim',
+        config = function()
+            require('spellsitter').setup()
+        end
+    }
 end)
 
 

@@ -1,6 +1,7 @@
 local opts = {noremap = true, silent = false}
 vim.g.mapleader = " "
-vim.keymap.set({ "n", "i", "v", "s" }, "<c-s>", '<cmd>w<cr>', opts)
+vim.keymap.set({ "n" }, "<c-s>", '<cmd>w<cr>', opts)
+vim.keymap.set({ "i", "v", "s" }, "<c-s>", '<cmd>w<cr><Esc>', opts)
 vim.keymap.set({ "n", "i", "v" }, "<c-q>", '<cmd>wq<cr>', opts)
 vim.keymap.set({ "n", "i", "v" }, "<Esc><Esc>", '<cmd>nohlsearch<cr>', opts)
 vim.keymap.set({ "n"}, "<c-f>", '<Esc>:/', opts)
@@ -20,7 +21,6 @@ vim.keymap.set({ "n" }, "<c-j>", ":cprev<CR>", opts)
 
 
 
-vim.keymap.set({ "n" }, "<leader>c", "<Esc>:w! | !compiler '<c-r>%'<CR>", opts)
 
 vim.keymap.set({ "n" }, "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
 vim.keymap.set({ "n" }, "<leader>fl", "<cmd>Telescope live_grep<cr>", opts)
@@ -58,3 +58,68 @@ vim.keymap.set({"n"}, 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 vim.keymap.set({"n"}, '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
 
+vim.keymap.set({ "n" }, "<leader>O", "<Esc>:setlocal spell! spelllang=en_us<CR>", opts)
+vim.keymap.set({ "n" }, "<leader>o", "<Esc>:setlocal spell! spelllang=es<CR>", opts)
+vim.keymap.set({ "n" }, "<leader>s", "<Esc>:!clear && spellcheck -x %<CR>", opts)
+
+vim.keymap.set({ "n" }, "<leader>p", "<Esc>:!opout <c-r>%<CR><CR>", opts)
+vim.keymap.set({ "n" }, "<leader>c", "<Esc>:w! | !compiler '<c-r>%'<CR>", opts)
+
+vim.cmd('nmap <buffer> <leader>r <Esc>:w<CR>:!clear;python %<CR>')
+vim.cmd('inoremap <esc> <nop>')
+
+--nnoremap <leader>u :UndotreeShow<CR>
+--cmap w!! w !sudo tee %
+--nmap <buffer> <leader>b oimport ipdb;ipdb.set_trace(context=4)<ESC>
+--
+--
+--"Better nav for omnicomplete
+--""inoremap <expr> <c-j> ("\<C-n>")
+--""inoremap <expr> <c-k> ("\<C-p>")
+--
+--" Use alt + hjkl to resize windows
+--nnoremap <M-j>    :resize -2<CR>
+--nnoremap <M-k>    :resize +2<CR>
+--nnoremap <M-h>    :vertical resize -2<CR>
+--nnoremap <M-l>    :vertical resize +2<CR>
+--
+--
+--" TAB in general mode will move to text buffer
+--"nnoremap <TAB> :bnext<CR> " breaks C-i
+--" SHIFT-TAB will go back
+--"nnoremap <S-TAB> :bprevious<CR>
+--"
+--" <TAB>: completion.
+--" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+--
+--" Better window navigation
+--"nnoremap <C-h> <C-w>h
+--"nnoremap <C-j> <C-w>j
+--"nnoremap <C-k> <C-w>k
+--"nnoremap <C-l> <C-w>l
+--
+--nnoremap <silent> <leader><leader> :source $MYVIMRC<cr>
+--" The Primeagen
+--
+--nnoremap n nzzzv
+--nnoremap N Nzzzv
+--nnoremap J mzJ`z
+--
+--inoremap , ,<c-g>u
+--inoremap . .<c-g>u
+--inoremap ! !<c-g>u
+--inoremap ? ?<c-g>u
+--
+--
+--
+--inoremap <C-j> <esc>:m .+1<CR>==
+--nnoremap <leader>j :m .+1<CR>==
+--inoremap <C-k> <esc>:m .-2<CR>==
+--nnoremap <leader>k :m .-2<CR>==
+--
+--
+--
+--" project view
+--nnoremap <leader>pv :Ex<CR>
+--
+--au! BufWritePost $MYVIMRC source %
