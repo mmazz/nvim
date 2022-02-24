@@ -54,8 +54,6 @@ local rep = require("luasnip.extras").rep
 ls.snippets = {
     all = {
         ls.parser.parse_snippet("expand", "asd"),
-    },
-    lua = {
         -- Lua specific snippets go here.
         --s("begin", fmt("\\begin{}\n \t{}\n \\end{}", {i(1), i(2)}, rep(1))),
         s("align", fmt("\\begin{{align}}\n \t{}\n \\end{{align}}", {i(1)})),
@@ -65,7 +63,8 @@ ls.snippets = {
         --s("fig", fmt( "\\begin{{figure}}\n{} \\end{{figure}}", { i(1)})),
         --s("md", fmt( "\\begin{{mdframed}}[backgroundcolor=frenchblue!20] \n\t {}\n \\end{{mdframed}}", { i(1)})),
         --s("ls", {	t({"\\begin{itemize}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{itemize}"}), i(0)}),
-
+    },
+    python = {
         ls.parser.parse_snippet("header", [[import matplotlib.pyplot as plt
 import time
 import pandas as pd
