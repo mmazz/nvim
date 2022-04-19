@@ -3,6 +3,8 @@ vim.g.snippets = "luasnip"
 local opt = vim.opt
 opt.termguicolors = true
 
+-- cmp
+opt.completeopt =  { 'menuone', 'noinsert', 'noselect' }
 -- Ignore compiled files
 opt.wildignore = "__pycache__"
 opt.wildignore = opt.wildignore + { "*.o", "*~", "*.pyc", "*pycache*" }
@@ -92,13 +94,12 @@ opt.fillchars = { eob = "~" }
 --filetype on
 --filetype plugin indent on
 --syntax on
---vim.o.completeopt = add { 'menuone', 'noinsert', 'noselect' }
 --set directory^=$HOME/.config/nvim/swap//
 --set spelllang=en_us,es
 --set autoindent
 --set colorcolumn=80,120
 opt.signcolumn = 'yes:2'
-opt.colorcolumn = '+1' -- Set the colour column to highlight one column after the 'textwidth'
+opt.colorcolumn = '80,120'
 --set encoding=UTF-8
 vim.o.encoding = 'utf-8'
 vim.o.fileencoding = 'utf-8'

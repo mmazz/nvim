@@ -10,6 +10,12 @@ require('onedark').setup {
     style = 'darker'
 }
 require('onedark').load()
+
+
+  -- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+
 local configs = require'nvim-treesitter.configs'
     configs.setup {
         ensure_installed = "maintained", -- Only use parsers that are maintained
@@ -71,7 +77,7 @@ end
 
 ---------------------------------------------------
 local servers = {
-    "jsonls", -- for jsonl
+ --   "jsonls", -- for jsonl
     "clang",
     "texlab", -- for latex
 --    "pylsp", -- for python
@@ -84,7 +90,6 @@ for _, server in ipairs(servers) do install_server(server) end
 
 
 local cmp = require'cmp'
-
   cmp.setup({
     snippet = {
     expand = function(args)
@@ -103,10 +108,12 @@ local cmp = require'cmp'
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     },
     sources = cmp.config.sources({
+    { name = 'luasnip' }, -- For luasnip users.
       { name = 'nvim_lsp' },
-      { name = 'luasnip' }, -- For luasnip users.
+    { omni = {filetypes = {'tex'}}}, -- for vimtex?
     }, {
       { name = 'buffer' },
+     { name = 'path' }
     })
   })
 
@@ -120,27 +127,22 @@ local cmp = require'cmp'
   })
 
   -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
+-- tj lo borro
+--  cmp.setup.cmdline('/', {
+--    sources = {
+--      { name = 'buffer' }
+--    }
+--  })
 
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
-
-  -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
- -- require('lspconfig')['sumneko_lua'].setup {
-   -- capabilities = capabilities
-  --}
+-- tj lo borro
+--  cmp.setup.cmdline(':', {
+--    sources = cmp.config.sources({
+--      { name = 'path' }
+--    }, {
+--      { name = 'cmdline' }
+--    })
+--  })
 
 require('telescope').setup{
 }
@@ -176,7 +178,76 @@ require'lualine'.setup({
 
 })
 
+-- npm i -g pyright -- fix
+require("lspconfig").pyright.setup{
+    capabilities = capabilities,
+    cmd = { "pyright-langserver", "--stdio" },
+    filetypes = { "python" },
+    --root_dir = pyright.root_pattern(".git", "setup.py",  "requirements.txt");
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+        --on_attach(client)
+    end,
+ --   before_init = function(_, config)
+ --       local p
+ --       if vim.env.VIRTUAL_ENV then
+ --           p = lsp_util.path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
+ --       else
+ --           p = utils.find_cmd("python3", ".venv/bin", config.root_dir)
+ --       end
+ --       config.settings.python.pythonPath = p
+ --   end,
+    flags = {
+        debounce_text_changes = 150,
+    },
+    settings = {
+        disableOrganizeImports = true,
+        python = {
+            analysis = {
+                autoSearchPaths = true, -- true?
+                diagnosticMode = "workspace", -- openFilesOnly ?
+                useLibraryCodeForTypes = true, -- true?
+                typeCheckingMode = "off"
+            },
+        },
+    },
+    single_file_support = true
+}
 
+
+
+	--on_attach = lsp_attach
+
+require("lspconfig").texlab.setup{
+    capabilities = capabilities,
+	cmd = { "texlab" },
+    filetypes = { "tex", "bib" },
+    settings = {
+          bibtex = {
+            formatting = {
+              lineLength = 120
+            }
+          },
+          latex = {
+            build = {
+              args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+              executable = "latexmk",
+              onSave = true,
+              onChange = true
+            },
+            forwardSearch = {
+              args = {},
+              onSave = false
+            },
+            lint = {
+              onChange = false,
+              onSave = true
+            }
+      }
+    },
+    	single_file_support = true
+}
 
 vim.cmd( [[
 augroup latex_au

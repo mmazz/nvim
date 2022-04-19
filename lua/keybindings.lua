@@ -1,5 +1,6 @@
 local opts = {noremap = true, silent = false}
 vim.g.mapleader = " "
+
 vim.keymap.set({ "n" }, "<c-s>", '<cmd>w<cr>', opts)
 vim.keymap.set({ "i", "v", "s" }, "<c-s>", '<cmd>w<cr><Esc>', opts)
 vim.keymap.set({ "n", "i", "v" }, "<c-q>", '<cmd>wq<cr>', opts)
@@ -11,52 +12,13 @@ vim.keymap.set({ "i", "v" }, "kj", '<Esc>', opts)
 vim.keymap.set({ "v" }, "<", '<gv', opts)
 vim.keymap.set({ "v" }, ">", '>gv', opts)
 
-vim.keymap.set({ "n" }, "Y", 'y$', opts)
-
 vim.keymap.set({ "n", "i", "v"}, "<c-r>", '<Esc>:source $MYVIMRC<CR>', opts)
 vim.keymap.set({ "v" }, "J", "<Esc>:m '>+1<CR>gv=gv'", opts)
 vim.keymap.set({ "v" }, "K", "<Esc>:m '<-2<CR>gv=gv'", opts)
 vim.keymap.set({ "n" }, "<c-k>", ":cnext<CR>", opts)
 vim.keymap.set({ "n" }, "<c-j>", ":cprev<CR>", opts)
 
-
-
-
-vim.keymap.set({ "n" }, "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
-vim.keymap.set({ "n" }, "<leader>fl", "<cmd>Telescope live_grep<cr>", opts)
-vim.keymap.set({ "n" }, "<leader>fg", "<cmd>Telescope git_files<cr>", opts)
-vim.keymap.set({ "n" }, "<c-p>", "<cmd>Telescope git_files<cr>", opts)
-vim.keymap.set({ "n" }, "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
-vim.keymap.set({ "n" }, "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
-vim.keymap.set({ "n" }, "<leader>fs", "<cmd>Telescope grep_string<cr>", opts)
-vim.keymap.set({ "n" }, "<leader>fd", "<cmd>lua require('telescope.builtin').find_files()<CR>", opts)
-
---nnoremap <leader>fg <cmd>Telescope live_grep<cr>
---nnoremap <leader>fb <cmd>Telescope buffers<cr>
---nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 vim.keymap.set({ "n" }, "<leader>z", "<Esc>:Centerpad<CR>", opts)
-
---nnoremap ff :lua require('telescope.builtin').find_files()<CR>
---nnoremap fg :lua require('telescope.builtin').git_files()<CR>
---nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
---nnoremap fs :lua require('telescope.builtin').grep_string<CR>
---nnoremap fb :lua require('telescope.builtin').buffers()<CR>
---nnoremap fh :lua require('telescope.builtin').hel_tags()<CR>
---
-vim.keymap.set({"n"}, 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-vim.keymap.set({"n"}, 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-vim.keymap.set({"n"}, 'gK', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-vim.keymap.set({"n"}, 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-vim.keymap.set({"n"}, '<C-K>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-vim.keymap.set({"n"}, '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-vim.keymap.set({"n"}, '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-vim.keymap.set({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-vim.keymap.set({"n"}, '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-vim.keymap.set({"n"}, '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-vim.keymap.set({"n"}, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-vim.keymap.set({"n"}, 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-vim.keymap.set({"n"}, '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
 
 vim.keymap.set({ "n" }, "<leader>O", "<Esc>:setlocal spell! spelllang=en_us<CR>", opts)
 vim.keymap.set({ "n" }, "<leader>o", "<Esc>:setlocal spell! spelllang=es<CR>", opts)
@@ -64,9 +26,61 @@ vim.keymap.set({ "n" }, "<leader>s", "<Esc>:!clear && spellcheck -x %<CR>", opts
 
 vim.keymap.set({ "n" }, "<leader>p", "<Esc>:!opout <c-r>%<CR><CR>", opts)
 vim.keymap.set({ "n" }, "<leader>c", "<Esc>:w! | !compiler '<c-r>%'<CR>", opts)
+-- Telescope
+vim.keymap.set({ "n" }, "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fl", "<cmd>Telescope live_grep<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fg", "<cmd>Telescope git_files<cr>", opts)
+vim.keymap.set({ "n" }, "<c-p>",      "<cmd>Telescope git_files<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fs", "<cmd>Telescope grep_string<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>dl", "<cmd>Telescope diagnostics<cr>", opts)
+--vim.keymap.set({ "n" }, "<leader>fd", "<cmd>lua require('telescope.builtin').find_files()<CR>", opts)
 
-vim.cmd('nmap <buffer> <leader>r <Esc>:w<CR>:!clear;python %<CR>')
+
+-- LSP
+vim.keymap.set("n", '<leader>gd', vim.lsp.buf.definition, opts)
+vim.keymap.set("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
+vim.keymap.set("n", '<leader>gi', vim.lsp.buf.implementation, opts)
+vim.keymap.set("n", '<leader>vh', vim.lsp.buf.hover, opts)
+vim.keymap.set("n", '<leader>rn', vim.lsp.buf.rename, opts)
+vim.keymap.set("n", '<leader>dn', vim.diagnostic.goto_next, opts)
+vim.keymap.set("n", '<leader>dp', vim.diagnostic.goto_prev, opts)
+
+vim.keymap.set("n", '<leader>vs',  vim.lsp.buf.signature_help, opts)
+vim.keymap.set("n", '<leader>vca', vim.lsp.buf.code_action, opts)
+vim.keymap.set("n", '<leader>vrf', vim.lsp.buf.references, opts)
+--vim.keymap.set({"n"}, '<leader>vD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+--vim.keymap.set({"n"}, '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+--vim.keymap.set({"n"}, '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+--vim.keymap.set({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+vim.keymap.set({"n"}, '<space>f', vim.lsp.buf.formatting, opts)
+
+
+
+
+--vim.cmd('nmap <buffer> <leader>r <Esc>:w<CR>:!clear;python %<CR>')
 vim.cmd('inoremap <esc> <nop>')
+
+vim.cmd('autocmd BufNewFile,BufRead *.tex  nnoremap <leader>tp :-1read $HOME/.config/templates/practicos.tex<CR>')
+vim.cmd('autocmd BufNewFile,BufRead *.tex  nnoremap <leader>tc :-1read $HOME/.config/templates/chapter.tex<CR>')
+--local latex = vim.api.nvim_create_augroup("LatexFile", { clear = true })
+--vim.api.nvim_create_autocmd("FileType", {
+--    pattern = {"*"},
+--    --command =  "vim.keymap.set({ 'n' }, '<leader>tp', ':-1read $HOME/.config/templates/practicos.tex<CR>', opts)",
+--    group = latex
+--})
+
+--augroup latex_au
+--    autocmd!
+--    autocmd BufNewFile,BufRead *.tex setlocal shiftwidth=2 tabstop=2
+--    autocmd BufNewFile,BufRead *.tex  nnoremap <leader>tr :-1read $HOME/.config/templates/resumen.tex<CR>
+--    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tr
+--    autocmd BufWinLeave *.tex !texclear %
+--augroup END
+--
+
+
 
 --nnoremap <leader>u :UndotreeShow<CR>
 --cmap w!! w !sudo tee %
