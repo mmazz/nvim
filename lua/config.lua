@@ -1,10 +1,9 @@
-
 vim.g.snippets = "luasnip"
 local opt = vim.opt
 opt.termguicolors = true
 
 -- cmp
-opt.completeopt =  { 'menuone', 'noinsert', 'noselect' }
+opt.completeopt =  { 'menu', 'menuone', 'noinsert', 'noselect' }
 -- Ignore compiled files
 opt.wildignore = "__pycache__"
 opt.wildignore = opt.wildignore + { "*.o", "*~", "*.pyc", "*pycache*" }

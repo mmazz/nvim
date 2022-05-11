@@ -9,16 +9,16 @@ require('packer').startup(function()
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
+    use 'saadparwaiz1/cmp_luasnip'
     use 'L3MON4D3/LuaSnip'
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
-      }
-    use { 'saadparwaiz1/cmp_luasnip' }
+     }
     use {
         'nvim-telescope/telescope.nvim',
         requires = { {'nvim-lua/plenary.nvim'},
-        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },}
+       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },}
       }
     use 'nvim-lualine/lualine.nvim'
     use 'kyazdani42/nvim-web-devicons'

@@ -12,7 +12,7 @@ vim.keymap.set({ "i", "v" }, "kj", '<Esc>', opts)
 vim.keymap.set({ "v" }, "<", '<gv', opts)
 vim.keymap.set({ "v" }, ">", '>gv', opts)
 
-vim.keymap.set({ "n", "i", "v"}, "<c-r>", '<Esc>:source $MYVIMRC<CR>', opts)
+vim.keymap.set({ "n"}, "<leader>r", '<Esc>:source $MYVIMRC<CR>', opts)
 vim.keymap.set({ "v" }, "J", "<Esc>:m '>+1<CR>gv=gv'", opts)
 vim.keymap.set({ "v" }, "K", "<Esc>:m '<-2<CR>gv=gv'", opts)
 vim.keymap.set({ "n" }, "<c-k>", ":cnext<CR>", opts)
@@ -34,7 +34,7 @@ vim.keymap.set({ "n" }, "<c-p>",      "<cmd>Telescope git_files<cr>", opts)
 vim.keymap.set({ "n" }, "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
 vim.keymap.set({ "n" }, "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
 vim.keymap.set({ "n" }, "<leader>fs", "<cmd>Telescope grep_string<cr>", opts)
-vim.keymap.set({ "n" }, "<leader>dl", "<cmd>Telescope diagnostics<cr>", opts)
+vim.keymap.set({ "n" }, "<leader>fd", "<cmd>Telescope diagnostics<cr>", opts)
 --vim.keymap.set({ "n" }, "<leader>fd", "<cmd>lua require('telescope.builtin').find_files()<CR>", opts)
 
 
@@ -42,19 +42,19 @@ vim.keymap.set({ "n" }, "<leader>dl", "<cmd>Telescope diagnostics<cr>", opts)
 vim.keymap.set("n", '<leader>gd', vim.lsp.buf.definition, opts)
 vim.keymap.set("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
 vim.keymap.set("n", '<leader>gi', vim.lsp.buf.implementation, opts)
-vim.keymap.set("n", '<leader>vh', vim.lsp.buf.hover, opts)
+vim.keymap.set("n", '<leader>ho', vim.lsp.buf.hover, opts)
 vim.keymap.set("n", '<leader>rn', vim.lsp.buf.rename, opts)
 vim.keymap.set("n", '<leader>dn', vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", '<leader>dp', vim.diagnostic.goto_prev, opts)
 
 vim.keymap.set("n", '<leader>vs',  vim.lsp.buf.signature_help, opts)
-vim.keymap.set("n", '<leader>vca', vim.lsp.buf.code_action, opts)
-vim.keymap.set("n", '<leader>vrf', vim.lsp.buf.references, opts)
+vim.keymap.set("n", '<leader>ca', vim.lsp.buf.code_action, opts)
+vim.keymap.set("n", '<leader>rf', vim.lsp.buf.references, opts)
 --vim.keymap.set({"n"}, '<leader>vD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 --vim.keymap.set({"n"}, '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
 --vim.keymap.set({"n"}, '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
 --vim.keymap.set({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-vim.keymap.set({"n"}, '<space>f', vim.lsp.buf.formatting, opts)
+vim.keymap.set({"n"}, '<leader>f', vim.lsp.buf.formatting, opts)
 
 
 
@@ -62,8 +62,6 @@ vim.keymap.set({"n"}, '<space>f', vim.lsp.buf.formatting, opts)
 --vim.cmd('nmap <buffer> <leader>r <Esc>:w<CR>:!clear;python %<CR>')
 vim.cmd('inoremap <esc> <nop>')
 
-vim.cmd('autocmd BufNewFile,BufRead *.tex  nnoremap <leader>tp :-1read $HOME/.config/templates/practicos.tex<CR>')
-vim.cmd('autocmd BufNewFile,BufRead *.tex  nnoremap <leader>tc :-1read $HOME/.config/templates/chapter.tex<CR>')
 --local latex = vim.api.nvim_create_augroup("LatexFile", { clear = true })
 --vim.api.nvim_create_autocmd("FileType", {
 --    pattern = {"*"},

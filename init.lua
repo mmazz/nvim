@@ -1,66 +1,43 @@
 require('keybindings')
 require('packages')
 require('config')
-require('mati/luasnip')
-
-
+require('plugin_luasnip')
 require'colorizer'.setup()
-
 require('onedark').setup {
     style = 'darker'
 }
 require('onedark').load()
 
 
-  -- Setup lspconfig.
+-- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 
 local configs = require'nvim-treesitter.configs'
     configs.setup {
-        ensure_installed = "maintained", -- Only use parsers that are maintained
+        ensure_installed =  { "c", "cpp", "latex", "bash", "lua", "rust", "python" }, -- Only use parsers that are maintained
+        sync_install = false,
         highlight = { -- enable highlighting
-          enable = true,
+         enable = true,
         },
         indent = {
           enable = true, -- default is disabled anyways
+       }
+}
+--
+--
+require("nvim-lsp-installer").setup {}
+local lspconfig = require("lspconfig")
+lspconfig.sumneko_lua.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim', 'use', 'require' }
+            }
         }
+    }
 }
 
-
-
-local lsp_installer = require("nvim-lsp-installer")
-
-lsp_installer.on_server_ready(function(server)
-     local opts = {}
-     if server.name == "sumneko_lua" then
-        opts = {
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { 'vim', 'use' }
-              },
-              --workspace = {
-                -- Make the server aware of Neovim runtime files
-                --library = {[vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true}
-              --}
-            }
-          }
-        }
-      end
-      server:setup(opts)
-end)
----------------------------------------------------
-local function make_server_ready(attach)
-    lsp_installer.on_server_ready(function(server)
-        local opts = {}
-        opts.on_attach = attach
-
-        -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
-        server:setup(opts)
-        vim.cmd [[ do User LspAttachBuffers ]]
-    end)
-end
 ---------------------------------------------------
 
 ---------------------------------------------------
@@ -87,8 +64,8 @@ local servers = {
 
 -- install the LS
 for _, server in ipairs(servers) do install_server(server) end
-
-
+--
+--
 local cmp = require'cmp'
   cmp.setup({
     snippet = {
@@ -97,25 +74,38 @@ local cmp = require'cmp'
     end,
   },
     mapping = {
-      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-      ['<C-e>'] = cmp.mapping({
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+     -- ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+     -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+     -- ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping({
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
       }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ['<CR>'] = cmp.mapping.confirm ({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true
+        }),
     },
     sources = cmp.config.sources({
     { name = 'luasnip' }, -- For luasnip users.
       { name = 'nvim_lsp' },
     { omni = {filetypes = {'tex'}}}, -- for vimtex?
     }, {
-      { name = 'buffer' },
+      { name = 'buffer', keyword_length = 4 },
      { name = 'path' }
     })
-  })
+  ,
+    experimental = {
+        native_menu = false,
+        ghost_text = true,
+    },
+})
 
   -- Set configuration for specific filetype.
   cmp.setup.filetype('gitcommit', {
@@ -143,10 +133,9 @@ local cmp = require'cmp'
 --      { name = 'cmdline' }
 --    })
 --  })
-
-require('telescope').setup{
-}
-
+--
+require('telescope').setup{}
+--
 require'lualine'.setup({
   options = {
     icons_enabled = true,
@@ -177,9 +166,9 @@ require'lualine'.setup({
   extensions = {}
 
 })
-
+--
 -- npm i -g pyright -- fix
-require("lspconfig").pyright.setup{
+lspconfig.pyright.setup{
     capabilities = capabilities,
     cmd = { "pyright-langserver", "--stdio" },
     filetypes = { "python" },
@@ -217,9 +206,8 @@ require("lspconfig").pyright.setup{
 
 
 
-	--on_attach = lsp_attach
 
-require("lspconfig").texlab.setup{
+lspconfig.texlab.setup{
     capabilities = capabilities,
 	cmd = { "texlab" },
     filetypes = { "tex", "bib" },
@@ -253,8 +241,9 @@ vim.cmd( [[
 augroup latex_au
     autocmd!
     autocmd BufNewFile,BufRead *.tex setlocal shiftwidth=2 tabstop=2
-    autocmd BufNewFile,BufRead *.tex  nnoremap <leader>tr :-1read $HOME/.config/templates/resumen.tex<CR>
-    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tr
+    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tr :-1read $HOME/.config/templates/resumen.tex<CR>
+    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tp :-1read $HOME/.config/templates/practicos.tex<CR>
+    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tc :-1read $HOME/.config/templates/chapter.tex<CR>
     autocmd BufWinLeave *.tex !texclear %
 augroup END
 ]])

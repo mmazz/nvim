@@ -33,8 +33,8 @@ local i = ls.insert_node
 -- Repeats a node, rep(<position>)
 local rep = require("luasnip.extras").rep
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-local m = ls.match_insert
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local m = ls.match_insert
 
 local rec_ls
 local t = ls.text_node
@@ -56,18 +56,40 @@ local f = ls.function_node
 
 local prob = function(index)
     return f(function(arg)
-        res = 1-tonumber(arg[1][1])
+        local res = 1-tonumber(arg[1][1])
         print(vim.inspect(res))
         return arg[1][1]
     end, { index })
 end
-ls.snippets = {
-    all = {
-            --s("same", fmt([[{} asdasd {}]],{i(1), prob(1)})),
-        --s("columns2", fmt("\\begin{{columns}}\\column{{0.{}\\textwidth}}\\column{{0.{}\\textwidth}}", {i(1), prob(1)})),
-    },
 
-    python = {
+ls.add_snippets("all", {
+     s("test", fmt([[{} testing LuaSnip {}]],{i(1), prob(1)})),
+    },{
+    key = "all",
+})
+
+ls.add_snippets("plaintex", {
+        ls.parser.parse_snippet("color", "\\definecolor{frenchblue}{rgb}{0.0, 0.45, 0.73}"),
+        s("begin", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)})),
+        s("align", fmt("\\begin{{align}}\n \t{}\n\\end{{align}}", {i(1)})),
+        s("equation", fmt("\\begin{{equation}}\n \t{}\n\\end{{equation}}", {i(1)})),
+        --s("item", fmt( "\\begin{{itemize}} \n\t\\item {}\n \\end{{itemize}}", { i(1)})),
+        s("fig", fmt( "\\begin{{figure}}[h!] \n\t\\centering \n\t\\includegraphics[scale={}]{{{}.{}}}\n\t\\caption{{{}}}\n\t\\label{{fig:{}}}\n\\end{{figure}}", { i(1), i(2), i(3), i(4), rep(2)})),
+        s("fig*", fmt( "\\begin{{figure}}[h!] \n\t\\centering \n\t\\includegraphics[scale={}]{{{}}}\n\\end{{figure}}", { i(1), i(2)})),
+        s("md", fmt( "\\begin{{mdframed}}[backgroundcolor=frenchblue!20]\n\t{}\n\\end{{mdframed}}", { i(1)})),
+        s("item", {	t({"\\begin{itemize}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{itemize}"}), i(0)}),
+        s("enumerate", {	t({"\\begin{enumerate}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{enumerate}"}), i(0)}),
+        s("columns", fmt("\\begin{{columns}}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\\end{{columns}}", {i(1), i(2),i(3),i(4)})),
+        s("bf", fmt("\\textbf{{{}}}", {i(1)})),
+        s("it", fmt("\\textit{{{}}}", {i(1)})),
+        s("tt", fmt("\\texttt{{{}}}", {i(1)})),
+        --s("columns2", fmt("\\begin{{columns}}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\\end{{columns}}", {i(1), i(2), prob(1), i(4)})),
+        s("columns2", fmt("\\begin{{columns}}\\column{{0.{}\\textwidth}}\\column{{0.{}\\textwidth}}", {i(1), prob(1)})),
+},{
+    key = "tex",
+})
+
+ls.add_snippets("python", {
         s("class", fmt("class {}({}):\n\t\"\"\" {}\n\t\"\"\"\n\tdef __init__(self, {}):\n\t\t{} ", {i(1),i(2,"arg1"),i(3),i(4),i(5)})),
         s("def", fmt("def {}({}):\n \t\"\"\" {}\n\t\"\"\"\n\t{}\n\treturn ", {i(1),i(2),i(3),i(4)})),
         s("for", fmt("for {} in range({}):\n\t{}", {i(1),i(2),i(3)})),
@@ -98,27 +120,11 @@ sys.path.append(fpath)
 import utils.functions as fun
 
                      ]]),
-    },
-    tex = {
-        ls.parser.parse_snippet("color", "\\definecolor{frenchblue}{rgb}{0.0, 0.45, 0.73}"),
-        s("begin", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)})),
-        s("align", fmt("\\begin{{align}}\n \t{}\n\\end{{align}}", {i(1)})),
-        s("equation", fmt("\\begin{{equation}}\n \t{}\n\\end{{equation}}", {i(1)})),
-        --s("item", fmt( "\\begin{{itemize}} \n\t\\item {}\n \\end{{itemize}}", { i(1)})),
-        s("fig", fmt( "\\begin{{figure}}[h!] \n\t\\centering \n\t\\includegraphics[scale={}]{{{}.{}}}\n\t\\caption{{{}}}\n\t\\label{{fig:{}}}\n\\end{{figure}}", { i(1), i(2), i(3), i(4), rep(2)})),
-        s("fig*", fmt( "\\begin{{figure}}[h!] \n\t\\centering \n\t\\includegraphics[scale={}]{{{}}}\n\\end{{figure}}", { i(1), i(2)})),
-        s("md", fmt( "\\begin{{mdframed}}[backgroundcolor=frenchblue!20]\n\t{}\n\\end{{mdframed}}", { i(1)})),
-        s("item", {	t({"\\begin{itemize}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{itemize}"}), i(0)}),
-        s("enumerate", {	t({"\\begin{enumerate}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{enumerate}"}), i(0)}),
-        s("columns", fmt("\\begin{{columns}}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\\end{{columns}}", {i(1), i(2),i(3),i(4)})),
-        s("bf", fmt("\\textbf{{{}}}", {i(1)})),
-        s("it", fmt("\\textit{{{}}}", {i(1)})),
-        s("tt", fmt("\\texttt{{{}}}", {i(1)})),
-        --s("columns2", fmt("\\begin{{columns}}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\t\\column{{0.{}\\textwidth}}\n\t\t{}\n\\end{{columns}}", {i(1), i(2), prob(1), i(4)})),
-        s("columns2", fmt("\\begin{{columns}}\\column{{0.{}\\textwidth}}\\column{{0.{}\\textwidth}}", {i(1), prob(1)})),
-    },
+    }, {
+        key = "python",
+    })
 
-}
+
  -- \begin{columns}
 --\column{.5\textwidth}
 
@@ -148,5 +154,4 @@ end)
 
 vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
 -- shorcut to source luasnip file again, which reload my snipptes
-vim.keymap.set("n", "<space><space>s", "<cmd>source ~/.config/nvim/lua/mati/luasnip.lua<CR>")
-
+vim.keymap.set("n", "<space><space>s", "<cmd>source ~/.config/nvim/lua/plugin_luasnip.lua<CR>")
