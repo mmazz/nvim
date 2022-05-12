@@ -68,7 +68,7 @@ ls.add_snippets("all", {
     key = "all",
 })
 
-ls.add_snippets("plaintex", {
+ls.add_snippets("tex", {
         ls.parser.parse_snippet("color", "\\definecolor{frenchblue}{rgb}{0.0, 0.45, 0.73}"),
         s("begin", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)})),
         s("align", fmt("\\begin{{align}}\n \t{}\n\\end{{align}}", {i(1)})),

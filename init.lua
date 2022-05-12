@@ -174,8 +174,8 @@ lspconfig.pyright.setup{
     filetypes = { "python" },
     --root_dir = pyright.root_pattern(".git", "setup.py",  "requirements.txt");
     on_attach = function(client)
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
+        client.server_capabilities.document_formatting = false
+        client.server_capabilities.document_range_formatting = false
         --on_attach(client)
     end,
  --   before_init = function(_, config)
@@ -280,6 +280,6 @@ vim.cmd( [[
 autocmd TermOpen * setlocal nonu]])
 
 vim.cmd( [[let g:python3_host_prog = '/usr/bin/python']])
-
+vim.cmd( [[autocmd BufWritePost *bote-*.md silent !buildNote %:p ]])
 
 
