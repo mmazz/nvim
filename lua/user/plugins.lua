@@ -53,6 +53,7 @@ return packer.startup(function(use)
     use 'hrsh7th/nvim-cmp'
     use 'saadparwaiz1/cmp_luasnip'
     use 'L3MON4D3/LuaSnip'
+    use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
@@ -63,12 +64,17 @@ return packer.startup(function(use)
         requires = { {'nvim-lua/plenary.nvim'},
        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },}
       }
-    --use {'lervag/vimtex', ft = 'tex'}
+    use {'lervag/vimtex', ft = 'tex'}
     use 'nvim-lualine/lualine.nvim'
     use 'kyazdani42/nvim-web-devicons'
     use 'akinsho/toggleterm.nvim'
     use 'smithbm2316/centerpad.nvim'
-  --  use {'lewis6991/spellsitter.nvim',
+    use 'goolord/alpha-nvim'
+    use "mfussenegger/nvim-dap"
+    -- use "theHamsta/nvim-dap-virtual-text"
+    use "rcarriga/nvim-dap-ui"
+    use "ravenxrz/DAPInstall.nvim"
+    --  use {'lewis6991/spellsitter.nvim',
    --     config = function()
    --         require('spellsitter').setup()
    --     end

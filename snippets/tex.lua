@@ -102,11 +102,17 @@ end --}}}
 cs("begin", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)}))
 cs({trig="(%w)(%d)", regTrig=true, hidden=true},{
     f(function(_, snip)
-    return snip.captures[1].."_{".. snip.captures[2].."}"
+    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
+    end),
+})
+cs({trig="(%w)(%w)", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
     end),
 })
 cs("align", fmt("\\begin{{align}}\n \t{}\n\\end{{align}}", {i(1)}))
 cs("equation", fmt("\\begin{{equation}}\n \t{}\n\\end{{equation}}", {i(1)}))
+
 cs("fig", fmt([[
 \begin{{figure}}[h!]
     \centering
@@ -115,6 +121,15 @@ cs("fig", fmt([[
     \label{{fig:{}}}
 \end{{figure}}]],
     { i(1), i(2), i(3), i(4), rep(2)}))
+
+--cd("inkfig", fmt([[
+--\begin{{figure}}[h!]
+--    \centering
+--    \incfig{{{}}}
+--    \caption{{{}}}
+--    \label{{fig:}}
+--\end{{figure}}]],
+--{i(1), i(2)}))
 
 cs("columns", fmt([[
 \begin{{columns}}
@@ -133,9 +148,9 @@ cs("item", {	t({"\\begin{itemize}",	"\t\\item "}),
 cs("enumerate", {	t({"\\begin{enumerate}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{enumerate}"}), i(0)})
 
 
-cs("bf", fmt("\\textbf{{{}}}", {i(1)}))
-cs("it", fmt("\\textit{{{}}}", {i(1)}))
-cs("tt", fmt("\\texttt{{{}}}", {i(1)}))
+cs("bff", fmt("\\textbf{{{}}}", {i(1)}))
+cs("itt", fmt("\\textit{{{}}}", {i(1)}))
+cs("ttt", fmt("\\texttt{{{}}}", {i(1)}))
 cs("frame", fmt("\\begin{{frame}}\n\\frametitle{{{}}}\n\t{}\n\\end{{frame}}", {i(1), i(2)}))
 
 

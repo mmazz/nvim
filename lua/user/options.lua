@@ -52,7 +52,6 @@ for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
-
 vim.g.snippets = "luasnip"
 vim.g['tex_flavor'] = 'latex'
 vim.opt.fillchars = vim.opt.fillchars + 'eob: '
@@ -60,10 +59,15 @@ vim.opt.fillchars:append {
   stl = ' ',
 }
 vim.opt.shortmess:append "c"
-vim.cmd "set whichwrap+=<,>,[,],h,l"
-vim.cmd [[set iskeyword+=-]]
-vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
 
+--vim.g['vimtex_compiler_latexmk'] = {'build_dir' : 'build'}
+vim.g['vimtex_view_method'] = 'zathura'
+vim.g['vimtex_quickfix_mode']= '-1'
+vim.g['tex_conceal'] = 'abdmg'
+
+vim.cmd("set whichwrap+=<,>,[,],h,l")
+vim.cmd([[set iskeyword+=-]])
+vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 --local opt = vim.opt
 --opt.wildignore = "__pycache__"
 --opt.wildignore = opt.wildignore + { "*.o", "*~", "*.pyc", "*pycache*" }
