@@ -99,38 +99,74 @@ local function cs(trigger, nodes, opts) --{{{
 	table.insert(target_table, snippet) -- insert snippet into appropriate table
 end --}}}
 
-cs("begin", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)}))
-cs({trig="(%w)(%d)", regTrig=true, hidden=true},{
+-- todo
+-- non enumerate equations option
+cs({trig="(%w)sub(%d)", regTrig=true, hidden=true},{
     f(function(_, snip)
     return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
     end),
 })
-cs({trig="(%w)(%w)", regTrig=true, hidden=true},{
+cs({trig="(%w)sub(%d%d)", regTrig=true, hidden=true},{
     f(function(_, snip)
     return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
     end),
 })
-cs("align", fmt("\\begin{{align}}\n \t{}\n\\end{{align}}", {i(1)}))
-cs("equation", fmt("\\begin{{equation}}\n \t{}\n\\end{{equation}}", {i(1)}))
+cs({trig="(%w)sub(%w)", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
+    end),
+})
+cs({trig="(%w)sub(%w%w)", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
+    end),
+})
 
+cs({trig="sqrt(%w)", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "$"..snip.captures[1].."^{2}$"
+    end),
+})
+cs({trig="cube(%w)", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "$"..snip.captures[1].."^{3}$"
+    end),
+})
+cs({trig="pow(%w)", regTrig=true, hidden=true},{
+    f(function(arg, snip)
+    return "$"..snip.captures[1].."^{"..arg[1][1].."}$"
+    end),
+})
+cs("im", fmt("${}$",{i(1)}))
+cs("dm", fmt("\\[\n{}\n.\\]",{i(1)}))
+cs("begin", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)}))
+cs("align", fmt("\\begin{{align}}\n \t{}\n\\end{{align}}", {i(1)}))
+cs("align*", fmt("\\begin{{align*}}\n \t{}\n\\end{{align*}}", {i(1)}))
+cs("equation", fmt("\\begin{{equation}}\n \t{}\n\\end{{equation}}", {i(1)}))
+cs("equation*", fmt("\\begin{{equation*}}\n \t{}\n\\end{{equation*}}", {i(1)}))
+cs("enumerate", {	t({"\\begin{enumerate}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{enumerate}"}), i(0)})
 cs("fig", fmt([[
 \begin{{figure}}[h!]
     \centering
-    \includegraphics[scale={}]{{{}.{}}}
+    \includegraphics[scale={}]{{{}}}
     \caption{{{}}}
     \label{{fig:{}}}
 \end{{figure}}]],
-    { i(1), i(2), i(3), i(4), rep(2)}))
+    { i(1), i(2), i(3), rep(2)}))
+cs("fig*", fmt([[
+\begin{{figure}}[h!]
+    \centering
+    \includegraphics[scale={}]{{{}}}
+\end{{figure}}]],
+    { i(1), i(2)}))
 
---cd("inkfig", fmt([[
+--cs("2fig*", fmt([[
 --\begin{{figure}}[h!]
 --    \centering
---    \incfig{{{}}}
---    \caption{{{}}}
---    \label{{fig:}}
+--    \includegraphics[scale={}]{{{}}}{}
 --\end{{figure}}]],
---{i(1), i(2)}))
-
+--    { i(1), i(2), c(3,{sn(1, {t("\\caption{{"),i(1),t("}}")}),t("")}  )}))
+--
 cs("columns", fmt([[
 \begin{{columns}}
     \column{{0.{}\textwidth}}
@@ -145,14 +181,28 @@ cs("item", {	t({"\\begin{itemize}",	"\t\\item "}),
     i(1), d(2, rec_ls, {}),
     t({"", "\\end{itemize}"}), i(0)})
 
-cs("enumerate", {	t({"\\begin{enumerate}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{enumerate}"}), i(0)})
-
-
-cs("bff", fmt("\\textbf{{{}}}", {i(1)}))
-cs("itt", fmt("\\textit{{{}}}", {i(1)}))
-cs("ttt", fmt("\\texttt{{{}}}", {i(1)}))
+--s("\caption{{{}}}\n\label{{fig:{}}}",i(3), rep(2))
+cs("//", fmt("\\frac{{{}}}{{{}}}", {i(1), i(2)}))
+cs("bf", fmt("\\textbf{{{}}}", {i(1)}))
+cs("it", fmt("\\textit{{{}}}", {i(1)}))
+cs("tt", fmt("\\texttt{{{}}}", {i(1)}))
 cs("frame", fmt("\\begin{{frame}}\n\\frametitle{{{}}}\n\t{}\n\\end{{frame}}", {i(1), i(2)}))
 
+cs("date", f(function()
+              return os.date "%D"
+            end))
 
+--cs({trig="(%w)hat", regTrig=true, hidden=true},{
+--    f(function(_, snip)
+--    return "\hat{"..snip.captures[1].."}"
+--    end),
+--})
+--cs({trig="(%w)bar", regTrig=true, hidden=true},{
+--    f(function(_, snip)
+--    return "\overline{"..snip.captures[1].."}"
+--    end),
+--})
+cs("000", t("\\infty"))
+--cs("sum", fmt("\\sum_{}^{}", {i(1,"n=0" ), i(2,"\infty")})
 return snippets, autosnippets
 

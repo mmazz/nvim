@@ -3,8 +3,15 @@ local keymap = vim.keymap.set
 
 vim.g.mapleader = " "
 
-vim.cmd([[ inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]])
-vim.cmd([[ nnoremap <C-i> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]])
+--vim.cmd([[ inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]])
+--vim.cmd([[ nnoremap <C-i> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]])
+vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
+    command = [[nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]]})
+
+vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
+    command = [[inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]]})
+
+
 --inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 keymap("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u", opts)
 
