@@ -37,20 +37,6 @@ local function install_server(server)
     end
 end
 ---------------------------------------------------
-
----------------------------------------------------
-local servers = {
- --   "jsonls", -- for jsonl
-    "clang",
-    "ltex", -- for latex and markdown
---    "pylsp", -- for python
-    "pyright",
-    "sumneko_lua" -- for lua
-}
-
--- install the LS
-for _, server in ipairs(servers) do install_server(server) end
--- npm i -g pyright -- fix
 lspconfig.pyright.setup{
     capabilities = capabilities,
     cmd = { "pyright-langserver", "--stdio" },
@@ -88,7 +74,7 @@ lspconfig.pyright.setup{
 }
 
 
---lspconfig.ltex.setup{}
+lspconfig.clangd.setup{}
 
 lspconfig.texlab.setup{
     capabilities = capabilities,
@@ -120,4 +106,18 @@ lspconfig.texlab.setup{
     	single_file_support = true
 }
 
+
+---------------------------------------------------
+local servers = {
+ --   "jsonls", -- for jsonl
+    "clang",
+    "ltex", -- for latex and markdown
+--    "pylsp", -- for python
+    "pyright",
+    "sumneko_lua" -- for lua
+}
+
+-- install the LS
+for _, server in ipairs(servers) do install_server(server) end
+-- npm i -g pyright -- fix
 

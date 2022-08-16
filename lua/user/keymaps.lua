@@ -6,10 +6,10 @@ vim.g.mapleader = " "
 --vim.cmd([[ inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]])
 --vim.cmd([[ nnoremap <C-i> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]])
 vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
-    command = [[nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]]})
+    command = [[nnoremap <C-i> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]]})
 
 vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
-    command = [[inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]]})
+    command = [[inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]]})
 
 
 --inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
@@ -37,6 +37,7 @@ keymap( "n" , "<leader>z", "<Esc>:Centerpad<CR>", opts)
 
 keymap( "n" , "<leader>O", "<Esc>:setlocal spell! spelllang=en_us<CR>", opts)
 keymap( "n" , "<leader>o", "<Esc>:setlocal spell! spelllang=es,en_us<CR>", opts)
+keymap( "n" , "<leader>w", "<Esc>:%!fold -w 80<CR>", opts)
 --keymap( "n" , "<leader>s", "<Esc>:!clear && spellcheck -x %<CR>", opts)
 
 keymap( "n" , "<leader>p", "<Esc>:!opout <c-r>%<CR><CR>", opts)
@@ -69,7 +70,7 @@ keymap("n", '<leader>rf', vim.lsp.buf.references, opts)
 --keymap({"n"}, '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
 --keymap({"n"}, '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
 --keymap({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-keymap({"n"}, '<leader>f', vim.lsp.buf.formatting, opts)
+keymap({"n"}, '<leader>fo', vim.lsp.buf.format, opts)
 
 keymap({"n"}, 'gf', "<cmd>e <cfile><cr>", opts)
 

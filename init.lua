@@ -11,12 +11,16 @@ require('user.treesitter')
 require('user.nvim-tree')
 require('user.alpha')
 require('user.dap')
-require'colorizer'.setup()
+require('user.comment')
+require('user.todo-comments')
+require('user.toggleterm')
+require('user.whichkey')
+require('user.colorizer')
+require('user.gitsings')
 require('onedark').setup {
     style = 'darker'
 }
 require('onedark').load()
-
 require('telescope').setup{}
 --
 --

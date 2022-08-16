@@ -83,8 +83,17 @@ return packer.startup(function(use)
    -- use 'rcarriga/nvim-dap-ui'
    -- use 'theHamsta/nvim-dap-virtual-text'
    -- use 'nvim-telescope/telescope-dap.nvim'
-
-
+  -- Git
+  use "lewis6991/gitsigns.nvim"
+-- Keybinding
+  use "folke/which-key.nvim"
+-- Terminal
+  use "akinsho/toggleterm.nvim"
+    -- Comment
+  use "numToStr/Comment.nvim"
+  use "folke/todo-comments.nvim"
+  -- Editing Support
+  use "windwp/nvim-autopairs"
   if PACKER_BOOTSTRAP then
     require("packer").sync()
   end
