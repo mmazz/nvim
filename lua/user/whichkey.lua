@@ -1,3 +1,4 @@
+-- most from https://github.com/ChristianChiarulli/nvim/blob/master/lua/user/whichkey.lua
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
   return
@@ -79,70 +80,25 @@ local opts = {
   nowait = true, -- use `nowait` when creating keymaps
 }
 
-local m_opts = {
-  mode = "n", -- NORMAL mode
-  prefix = "m",
-  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-  silent = true, -- use `silent` when creating keymaps
-  noremap = true, -- use `noremap` when creating keymaps
-  nowait = true, -- use `nowait` when creating keymaps
-}
-
-local m_mappings = {
-  a = { "<cmd>silent BookmarkAnnotate<cr>", "Annotate" },
-  c = { "<cmd>silent BookmarkClear<cr>", "Clear" },
-  b = { "<cmd>silent BookmarkToggle<cr>", "Toggle" },
-  m = { '<cmd>lua require("harpoon.mark").add_file()<cr>', "Harpoon" },
-  ["."] = { '<cmd>lua require("harpoon.ui").nav_next()<cr>', "Harpoon Next" },
-  [","] = { '<cmd>lua require("harpoon.ui").nav_prev()<cr>', "Harpoon Prev" },
-  l = { "<cmd>lua require('user.bfs').open()<cr>", "Buffers" },
-  j = { "<cmd>silent BookmarkNext<cr>", "Next" },
-  s = { "<cmd>Telescope harpoon marks<cr>", "Search Files" },
-  k = { "<cmd>silent BookmarkPrev<cr>", "Prev" },
-  S = { "<cmd>silent BookmarkShowAll<cr>", "Prev" },
-  -- s = {
-  --   "<cmd>lua require('telescope').extensions.vim_bookmarks.all({ hide_filename=false, prompt_title=\"bookmarks\", shorten_path=false })<cr>",
-  --   "Show",
-  -- },
-  x = { "<cmd>BookmarkClearAll<cr>", "Clear All" },
-  [";"] = { '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', "Harpoon UI" },
-}
 
 local mappings = {
   -- ["1"] = "which_key_ignore",
-  a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Action" },
   b = { "<cmd>Telescope buffers<cr>", "Buffers" },
   e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   v = { "<cmd>vsplit<cr>", "vsplit" },
-  h = { "<cmd>split<cr>", "split" },
+  h = { "<cmd>split<cr>", "hsplit" },
   w = { "<cmd>w<CR>", "Write" },
-  -- h = { "<cmd>nohlsearch<CR>", "No HL" },
-  q = { '<cmd>lua require("user.functions").smart_quit()<CR>', "Quit" },
+  z = { "<Esc>:Centerpad<CR>", "Center"},
   ["/"] = { '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>', "Comment" },
-  -- ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-  c = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-
-  -- :lua require'lir.float'.toggle()
-  -- ["f"] = {
-  --   "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-  --   "Find files",
-  -- },
-  -- ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-  -- P = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
-  -- ["R"] = { '<cmd>lua require("renamer").rename()<cr>', "Rename" },
-  -- ["z"] = { "<cmd>ZenMode<cr>", "Zen" },
   ["gy"] = "Link",
+  O = { "<Esc>:setlocal spell! spelllang=en_us<CR>", "Spell Eng"},
+  o = { "<Esc>:setlocal spell! spelllang=es,en_us<CR>", "Spell Es Eng"},
+  F = { "<Esc>:%!fold -w 80<CR>", "Fold" },
+  p = { "<Esc>:!opout <c-r>%<CR><CR>", "Print" },
+  c = { "<Esc>:w! | !compiler '<c-r>%'<CR>", "Compile" },
+  r = { "<Esc>:source $MYVIMRC<CR>", "Source VimRC" },
 
---  B = {
---    name = "Browse",
---    i = { "<cmd>BrowseInputSearch<cr>", "Input Search" },
---    b = { "<cmd>Browse<cr>", "Browse" },
---    d = { "<cmd>BrowseDevdocsSearch<cr>", "Devdocs" },
---    f = { "<cmd>BrowseDevdocsFiletypeSearch<cr>", "Devdocs Filetype" },
---    m = { "<cmd>BrowseMdnSearch<cr>", "Mdn" },
---  },
---
-  p = {
+  P = {
     name = "Packer",
     c = { "<cmd>PackerCompile<cr>", "Compile" },
     i = { "<cmd>PackerInstall<cr>", "Install" },
@@ -151,44 +107,6 @@ local mappings = {
     u = { "<cmd>PackerUpdate<cr>", "Update" },
   },
 
-  o = {
-    name = "Options",
-    c = { '<cmd>lua vim.g.cmp_active=false<cr>', "Completion off" },
-    C = { '<cmd>lua vim.g.cmp_active=true<cr>', "Completion on" },
-    w = { '<cmd>lua require("user.functions").toggle_option("wrap")<cr>', "Wrap" },
-    r = { '<cmd>lua require("user.functions").toggle_option("relativenumber")<cr>', "Relative" },
-    l = { '<cmd>lua require("user.functions").toggle_option("cursorline")<cr>', "Cursorline" },
-    s = { '<cmd>lua require("user.functions").toggle_option("spell")<cr>', "Spell" },
-    t = { '<cmd>lua require("user.functions").toggle_tabline()<cr>', "Tabline" },
-
-  },
-
-  -- s = {
-  --   name = "Split",
-  --   s = { "<cmd>split<cr>", "HSplit" },
-  --   v = { "<cmd>vsplit<cr>", "VSplit" },
-  -- },
-
---  s = {
---    name = "Session",
---    s = { "<cmd>SaveSession<cr>", "Save" },
---    r = { "<cmd>RestoreSession<cr>", "Restore" },
---    x = { "<cmd>DeleteSession<cr>", "Delete" },
---    f = { "<cmd>Autosession search<cr>", "Find" },
---    d = { "<cmd>Autosession delete<cr>", "Find Delete" },
---    -- a = { ":SaveSession<cr>", "test" },
---    -- a = { ":RestoreSession<cr>", "test" },
---    -- a = { ":RestoreSessionFromFile<cr>", "test" },
---    -- a = { ":DeleteSession<cr>", "test" },
---  },
---
---  r = {
---    name = "Replace",
---    r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
---    w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
---    f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Replace Buffer" },
---  },
---
   d = {
     name = "Debug",
     b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Breakpoint" },
@@ -202,23 +120,23 @@ local mappings = {
     x = { "<cmd>lua require'dap'.terminate()<cr>", "Exit" },
   },
 
-  -- nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-  -- nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-  -- require("dapui").open()
-  -- require("dapui").close()
-  -- require("dapui").toggle()
+
 
   f = {
     name = "Find",
-    b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+    b = { "<cmd>Telescope buffers<cr>", "Buffers" },
+    B = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
     c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+    d = { "<cmd>Telescope diagnostics<cr>", "Find Diagnostic" },
+    l = { "<cmd>Telescope live_grep<cr>", "Live grep" },
     f = { "<cmd>Telescope find_files<cr>", "Find files" },
+    g = { "<cmd>Telescope git_files<cr>", "Git files" },
     t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
     s = { "<cmd>Telescope grep_string<cr>", "Find String" },
     h = { "<cmd>Telescope help_tags<cr>", "Help" },
     H = { "<cmd>Telescope highlights<cr>", "Highlights" },
     i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
-    l = { "<cmd>Telescope resume<cr>", "Last Search" },
+    L = { "<cmd>Telescope resume<cr>", "Last Search" },
     M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
     r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
     R = { "<cmd>Telescope registers<cr>", "Registers" },
@@ -296,31 +214,15 @@ local mappings = {
     u = { "<cmd>LuaSnipUnlinkCurrent<cr>", "Unlink Snippet" },
   },
 
-  -- s = {
-  --   name = "Surround",
-  --   ["."] = { "<cmd>lua require('surround').repeat_last()<cr>", "Repeat" },
-  --   a = { "<cmd>lua require('surround').surround_add(true)<cr>", "Add" },
-  --   d = { "<cmd>lua require('surround').surround_delete()<cr>", "Delete" },
-  --   r = { "<cmd>lua require('surround').surround_replace()<cr>", "Replace" },
-  --   q = { "<cmd>lua require('surround').toggle_quotes()<cr>", "Quotes" },
-  --   b = { "<cmd>lua require('surround').toggle_brackets()<cr>", "Brackets" },
-  -- },
-
---  S = {
---    -- name = "Session",
---    -- s = { "<cmd>SaveSession<cr>", "Save" },
---    -- l = { "<cmd>LoadLastSession!<cr>", "Load Last" },
---    -- d = { "<cmd>LoadCurrentDirSession!<cr>", "Load Last Dir" },
---    -- f = { "<cmd>Telescope sessions save_current=false<cr>", "Find Session" },
---    name = "SnipRun",
---    c = { "<cmd>SnipClose<cr>", "Close" },
---    f = { "<cmd>%SnipRun<cr>", "Run File" },
---    i = { "<cmd>SnipInfo<cr>", "Info" },
---    m = { "<cmd>SnipReplMemoryClean<cr>", "Mem Clean" },
---    r = { "<cmd>SnipReset<cr>", "Reset" },
---    t = { "<cmd>SnipRunToggle<cr>", "Toggle" },
---    x = { "<cmd>SnipTerminate<cr>", "Terminate" },
---  },
+  L = {
+    name = "Latex",
+    r = {":-1read $HOME/.config/templates/resumen.tex<cr>","Resumen"},
+    n = {":-1read $HOME/.config/templates/notas.tex<cr>","Notas"},
+    b = {":-1read $HOME/.config/templates/presentacion.tex<cr>","Presentacion Beamer"},
+    p = {":-1read $HOME/.config/templates/practicos.tex<cr>","Practicos Cole"},
+    c = {":-1read $HOME/.config/templates/cole.tex<cr>","Diapo Cole"},
+    t = {":-1read $HOME/.config/templates/tesis.tex<cr>","Tesis"},
+  },
 
   t = {
     name = "Terminal",
@@ -344,13 +246,7 @@ local mappings = {
     r = { "<cmd>TSToggle rainbow<cr>", "Rainbow" },
   },
 
-  -- z = {
-  --   name = "Zen",
-  --   z = { "<cmd>TZAtaraxis<cr>", "Zen" },
-  --   m = { "<cmd>TZMinimalist<cr>", "Minimal" },
-  --   n = { "<cmd>TZNarrow<cr>", "Narrow" },
-  --   f = { "<cmd>TZFocus<cr>", "Focus" },
-  -- },
+
 }
 
 local vopts = {
@@ -370,4 +266,28 @@ local vmappings = {
 which_key.setup(setup)
 which_key.register(mappings, opts)
 which_key.register(vmappings, vopts)
-which_key.register(m_mappings, m_opts)
+
+
+-- previus keymaps check TODO
+-- Telecope
+
+--
+--
+---- LSP
+--keymap("n", '<leader>gd', vim.lsp.buf.definition, opts)
+--keymap("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
+--keymap("n", '<leader>gi', vim.lsp.buf.implementation, opts)
+--keymap("n", '<leader>ho', vim.lsp.buf.hover, opts)
+--keymap("n", '<leader>rn', vim.lsp.buf.rename, opts)
+--keymap("n", '<leader>dn', vim.diagnostic.goto_next, opts)
+--keymap("n", '<leader>dp', vim.diagnostic.goto_prev, opts)
+--
+--keymap("n", '<leader>vs',  vim.lsp.buf.signature_help, opts)
+--keymap("n", '<leader>ca', vim.lsp.buf.code_action, opts)
+--keymap("n", '<leader>rf', vim.lsp.buf.references, opts)
+----keymap({"n"}, '<leader>vD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+----keymap({"n"}, '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+----keymap({"n"}, '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+----keymap({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+--keymap({"n"}, '<leader>fo', vim.lsp.buf.format, opts)
+

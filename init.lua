@@ -17,6 +17,7 @@ require('user.toggleterm')
 require('user.whichkey')
 require('user.colorizer')
 require('user.gitsings')
+require('user.autopairs')
 require('onedark').setup {
     style = 'darker'
 }

@@ -1,8 +1,49 @@
 local opts = {noremap = true, silent = false}
 local keymap = vim.keymap.set
 
+--Remap space as leader key
+keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+keymap("n", "<C-Space>", "<cmd>WhichKey \\<leader><cr>", opts)
 
+keymap({ "i", "v", "s" }, "<c-s>", '<cmd>w<cr><Esc>', opts)
+keymap({ "n", "i", "v" }, "<c-q>", '<cmd>wq<cr>', opts)
+keymap({ "n", "i", "v" }, "<Esc><Esc>", '<cmd>nohlsearch<cr>', opts)
+keymap( "n", "<c-f>", '<Esc>/', opts)
+
+-- Better window navigation
+keymap("n", "<C-h>", "<C-w>h", opts)
+keymap("n", "<C-j>", "<C-w>j", opts)
+keymap("n", "<C-k>", "<C-w>k", opts)
+keymap("n", "<C-l>", "<C-w>l", opts)
+--keymap( "n" , "<c-k>", ":cnext<CR>", opts)
+--keymap( "n" , "<c-j>", ":cprev<CR>", opts)
+
+-- Tabs --
+keymap("n", "<m-t>", ":tabnew %<cr>", opts)
+keymap("n", "<m-y>", ":tabclose<cr>", opts)
+keymap("n", "<m-\\>", ":tabonly<cr>", opts)
+
+-- Resize with arrows
+keymap("n", "<C-Up>", ":resize -2<CR>", opts)
+keymap("n", "<C-Down>", ":resize +2<CR>", opts)
+keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+
+
+
+keymap( "n" , 'gf', "<cmd>e <cfile><cr>", opts)
+
+-- Move text up and down
+keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
+keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+
+-- Inert --
+keymap({ "i", "v" }, "jk", '<Esc>', opts)
+keymap({ "i", "v" }, "kj", '<Esc>', opts)
+
+-- Inkscape latex
 --vim.cmd([[ inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]])
 --vim.cmd([[ nnoremap <C-i> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]])
 vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
@@ -11,69 +52,27 @@ vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
 vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
     command = [[inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]]})
 
-
---inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 keymap("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u", opts)
 
-keymap("n", "<leader>t", "NvimTreeToggle<cr>", opts)
-keymap( "n" , "<c-s>", '<cmd>w<cr>', opts)
-keymap({ "i", "v", "s" }, "<c-s>", '<cmd>w<cr><Esc>', opts)
-keymap({ "n", "i", "v" }, "<c-q>", '<cmd>wq<cr>', opts)
-keymap({ "n", "i", "v" }, "<Esc><Esc>", '<cmd>nohlsearch<cr>', opts)
-keymap( "n", "<c-f>", '<Esc>/', opts)
 
-keymap({ "i", "v" }, "jk", '<Esc>', opts)
-keymap({ "i", "v" }, "kj", '<Esc>', opts)
+-- Visual --
+-- Stay in indent mode
 keymap( "v" , "<", '<gv', opts)
 keymap( "v" , ">", '>gv', opts)
+--keymap( "v" , "<c-j>", "<Esc>:m .+1<CR>==", opts)
+--keymap( "v" , "<c-k>", "<Esc>:m .-2<CR>==", opts)
 
-keymap( "n", "<leader>r", '<Esc>:source $MYVIMRC<CR>', opts)
-keymap( "v" , "J", "<Esc>:m '>+1<CR>gv=gv'", opts)
-keymap( "v" , "K", "<Esc>:m '<-2<CR>gv=gv'", opts)
-keymap( "n" , "<c-k>", ":cnext<CR>", opts)
-keymap( "n" , "<c-j>", ":cprev<CR>", opts)
+-- Move text up and down
+keymap("v", "<A-j>", ":m .+1<CR>==", opts)
+keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+keymap("v", "p", '"_dP', opts)
 
-keymap( "n" , "<leader>z", "<Esc>:Centerpad<CR>", opts)
-
-keymap( "n" , "<leader>O", "<Esc>:setlocal spell! spelllang=en_us<CR>", opts)
-keymap( "n" , "<leader>o", "<Esc>:setlocal spell! spelllang=es,en_us<CR>", opts)
-keymap( "n" , "<leader>w", "<Esc>:%!fold -w 80<CR>", opts)
---keymap( "n" , "<leader>s", "<Esc>:!clear && spellcheck -x %<CR>", opts)
-
-keymap( "n" , "<leader>p", "<Esc>:!opout <c-r>%<CR><CR>", opts)
-keymap( "n" , "<leader>c", "<Esc>:w! | !compiler '<c-r>%'<CR>", opts)
--- Telecope
-keymap( "n" , "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
-keymap( "n" , "<leader>fl", "<cmd>Telescope live_grep<cr>", opts)
-keymap( "n" , "<leader>fg", "<cmd>Telescope git_files<cr>", opts)
-keymap( "n" , "<c-p>",      "<cmd>Telescope git_files<cr>", opts)
-keymap( "n" , "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
-keymap( "n" , "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
-keymap( "n" , "<leader>fs", "<cmd>Telescope grep_string<cr>", opts)
-keymap( "n" , "<leader>fd", "<cmd>Telescope diagnostics<cr>", opts)
---keymap({ "n" }, "<leader>fd", "<cmd>lua require('telescope.builtin').find_files()<CR>", opts)
-
-
--- LSP
-keymap("n", '<leader>gd', vim.lsp.buf.definition, opts)
-keymap("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
-keymap("n", '<leader>gi', vim.lsp.buf.implementation, opts)
-keymap("n", '<leader>ho', vim.lsp.buf.hover, opts)
-keymap("n", '<leader>rn', vim.lsp.buf.rename, opts)
-keymap("n", '<leader>dn', vim.diagnostic.goto_next, opts)
-keymap("n", '<leader>dp', vim.diagnostic.goto_prev, opts)
-
-keymap("n", '<leader>vs',  vim.lsp.buf.signature_help, opts)
-keymap("n", '<leader>ca', vim.lsp.buf.code_action, opts)
-keymap("n", '<leader>rf', vim.lsp.buf.references, opts)
---keymap({"n"}, '<leader>vD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
---keymap({"n"}, '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
---keymap({"n"}, '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
---keymap({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-keymap({"n"}, '<leader>fo', vim.lsp.buf.format, opts)
-
-keymap({"n"}, 'gf', "<cmd>e <cfile><cr>", opts)
-
+-- Visual Block --
+-- Move text up and down
+keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
+keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
+keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
+keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 keymap("n",  "<F10>" , function()
 	if vim.o.conceallevel > 0 then
@@ -99,12 +98,6 @@ vim.cmd( [[
 augroup latex_au
     autocmd!
     autocmd BufNewFile,BufRead *.tex setlocal shiftwidth=2 tabstop=2
-    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tr :-1read $HOME/.config/templates/resumen.tex<CR>
-    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tn :-1read $HOME/.config/templates/notas.tex<CR>
-    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tp :-1read $HOME/.config/templates/presentacion.tex<CR>
-    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tcp :-1read $HOME/.config/templates/practicos.tex<CR>
-    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tcd :-1read $HOME/.config/templates/cole.tex<CR>
-    autocmd BufNewFile,BufRead *.tex nnoremap <leader>tt :-1read $HOME/.config/templates/tesis.tex<CR>
     setlocal conceallevel=1
     highlight Conceal ctermbg=none ctermfg=none guibg=none guifg=none
     autocmd BufWinLeave *.tex !texclear %
@@ -123,4 +116,5 @@ function! ToggleConcealLevel()
 endfunction
 nnoremap <silent> <C-c><C-c> :call ToggleConcealLevel()<CR>
 ]])
+-- keymap( "n" , "<leader>z", "<Esc>:Centerpad<CR>", opts)
 
