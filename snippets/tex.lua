@@ -101,22 +101,23 @@ end --}}}
 
 -- todo
 -- non enumerate equations option
-cs({trig="(%w)sub(%d)", regTrig=true, hidden=true},{
+cs({trig="(%w)_(%d)", regTrig=true, hidden=true},{
     f(function(_, snip)
     return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
     end),
 })
-cs({trig="(%w)sub(%d%d)", regTrig=true, hidden=true},{
+
+cs({trig="(%w)_(%d%d)", regTrig=true, hidden=true},{
     f(function(_, snip)
     return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
     end),
 })
-cs({trig="(%w)sub(%w)", regTrig=true, hidden=true},{
+cs({trig="(%w)_(%w)", regTrig=true, hidden=true},{
     f(function(_, snip)
     return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
     end),
 })
-cs({trig="(%w)sub(%w%w)", regTrig=true, hidden=true},{
+cs({trig="(%w)_(%w%w)", regTrig=true, hidden=true},{
     f(function(_, snip)
     return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
     end),

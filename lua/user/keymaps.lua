@@ -2,12 +2,11 @@ local opts = {noremap = true, silent = false}
 local keymap = vim.keymap.set
 
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+--vim.g.maplocalleader = " "
 keymap("n", "<C-Space>", "<cmd>WhichKey \\<leader><cr>", opts)
 
-keymap({ "i", "v", "s" }, "<c-s>", '<cmd>w<cr><Esc>', opts)
+keymap({ "n", "i", "v" }, "<c-s>", '<cmd>w<cr><Esc>', opts)
 keymap({ "n", "i", "v" }, "<c-q>", '<cmd>wq<cr>', opts)
 keymap({ "n", "i", "v" }, "<Esc><Esc>", '<cmd>nohlsearch<cr>', opts)
 keymap( "n", "<c-f>", '<Esc>/', opts)
@@ -43,18 +42,6 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 keymap({ "i", "v" }, "jk", '<Esc>', opts)
 keymap({ "i", "v" }, "kj", '<Esc>', opts)
 
--- Inkscape latex
---vim.cmd([[ inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]])
---vim.cmd([[ nnoremap <C-i> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]])
-vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
-    command = [[nnoremap <C-i> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]]})
-
-vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
-    command = [[inoremap <C-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]]})
-
-keymap("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u", opts)
-
-
 -- Visual --
 -- Stay in indent mode
 keymap( "v" , "<", '<gv', opts)
@@ -65,7 +52,7 @@ keymap( "v" , ">", '>gv', opts)
 -- Move text up and down
 keymap("v", "<A-j>", ":m .+1<CR>==", opts)
 keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "p", '"_dP', opts)
+keymap("v", "p", '"_dP', opts) -- replace text with paste
 
 -- Visual Block --
 -- Move text up and down
@@ -93,6 +80,15 @@ end, opts)
 vim.cmd('inoremap <esc> <nop>')
 
 -- Latex
+vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
+    command = [[nnoremap <leader>i : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>]]})
+
+vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
+    command = [[inoremap <m-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]]})
+
+keymap("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u", opts)
+
+keymap("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
 
 vim.cmd( [[
 augroup latex_au

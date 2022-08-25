@@ -83,15 +83,11 @@ local opts = {
 
 local mappings = {
   -- ["1"] = "which_key_ignore",
-  b = { "<cmd>Telescope buffers<cr>", "Buffers" },
   e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   v = { "<cmd>vsplit<cr>", "vsplit" },
   h = { "<cmd>split<cr>", "hsplit" },
-  w = { "<cmd>w<CR>", "Write" },
   z = { "<Esc>:Centerpad<CR>", "Center"},
-  ["/"] = { '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>', "Comment" },
-  ["gy"] = "Link",
-  O = { "<Esc>:setlocal spell! spelllang=en_us<CR>", "Spell Eng"},
+  ["/"] = { '<cmd>lua require("Comment.api").toggle.linewise(nil, {cfg})<CR>', "Comment" },
   o = { "<Esc>:setlocal spell! spelllang=es,en_us<CR>", "Spell Es Eng"},
   F = { "<Esc>:%!fold -w 80<CR>", "Fold" },
   p = { "<Esc>:!opout <c-r>%<CR><CR>", "Print" },
@@ -126,7 +122,6 @@ local mappings = {
     name = "Find",
     b = { "<cmd>Telescope buffers<cr>", "Buffers" },
     B = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-    c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
     d = { "<cmd>Telescope diagnostics<cr>", "Find Diagnostic" },
     l = { "<cmd>Telescope live_grep<cr>", "Live grep" },
     f = { "<cmd>Telescope find_files<cr>", "Find files" },
@@ -134,12 +129,9 @@ local mappings = {
     t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
     s = { "<cmd>Telescope grep_string<cr>", "Find String" },
     h = { "<cmd>Telescope help_tags<cr>", "Help" },
-    H = { "<cmd>Telescope highlights<cr>", "Highlights" },
-    i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
     L = { "<cmd>Telescope resume<cr>", "Last Search" },
     M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
     r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
-    R = { "<cmd>Telescope registers<cr>", "Registers" },
     k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
     C = { "<cmd>Telescope commands<cr>", "Commands" },
   },
@@ -175,22 +167,30 @@ local mappings = {
 --      p = { "<cmd>Gist -b -p<cr>", "Create Private" },
 --    },
   },
+---- LSP
+--keymap("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
+
+----keymap({"n"}, '<leader>vD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+----keymap({"n"}, '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+----keymap({"n"}, '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+----keymap({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+--keymap({"n"}, '<leader>fo', vim.lsp.buf.format, opts)
 
   l = {
     name = "LSP",
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
     c = { "<cmd>lua require('user.lsp').server_capabilities()<cr>", "Get Capabilities" },
-    d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
-    w = {
-      "<cmd>Telescope lsp_workspace_diagnostics<cr>",
-      "Workspace Diagnostics",
-    },
+    d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Definition" },
+    D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Declaration" },
+    h = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Hover" },
+    i = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Implementation" },
+    s = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Signature help" },
     f = { "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", "Format" },
-    F = { "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
-    i = { "<cmd>LspInfo<cr>", "Info" },
-    h = { "<cmd>lua require('lsp-inlayhints').toggle()<cr>", "Toggle Hints" },
-    H = { "<cmd>IlluminationToggle<cr>", "Toggle Doc HL" },
+    e = { "<cmd>LspInfo<cr>", "Info" },
     I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+    r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+    R = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
+    S = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
     j = {
       "<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>",
       "Next Diagnostic",
@@ -199,19 +199,6 @@ local mappings = {
       "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>",
       "Prev Diagnostic",
     },
-    v = { "<cmd>lua require('lsp_lines').toggle()<cr>", "Virtual Text" },
-    l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-    o = { "<cmd>SymbolsOutline<cr>", "Outline" },
-    q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
-    r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-    R = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
-    s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-    S = {
-      "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-      "Workspace Symbols",
-    },
-    t = { '<cmd>lua require("user.functions").toggle_diagnostics()<cr>', "Toggle Diagnostics" },
-    u = { "<cmd>LuaSnipUnlinkCurrent<cr>", "Unlink Snippet" },
   },
 
   L = {
@@ -273,21 +260,4 @@ which_key.register(vmappings, vopts)
 
 --
 --
----- LSP
---keymap("n", '<leader>gd', vim.lsp.buf.definition, opts)
---keymap("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
---keymap("n", '<leader>gi', vim.lsp.buf.implementation, opts)
---keymap("n", '<leader>ho', vim.lsp.buf.hover, opts)
---keymap("n", '<leader>rn', vim.lsp.buf.rename, opts)
---keymap("n", '<leader>dn', vim.diagnostic.goto_next, opts)
---keymap("n", '<leader>dp', vim.diagnostic.goto_prev, opts)
---
---keymap("n", '<leader>vs',  vim.lsp.buf.signature_help, opts)
---keymap("n", '<leader>ca', vim.lsp.buf.code_action, opts)
---keymap("n", '<leader>rf', vim.lsp.buf.references, opts)
-----keymap({"n"}, '<leader>vD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-----keymap({"n"}, '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-----keymap({"n"}, '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-----keymap({"n"}, '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
---keymap({"n"}, '<leader>fo', vim.lsp.buf.format, opts)
 
