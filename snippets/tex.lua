@@ -189,6 +189,7 @@ cs("it", fmt("\\textit{{{}}}", {i(1)}))
 cs("tt", fmt("\\texttt{{{}}}", {i(1)}))
 cs("frame", fmt("\\begin{{frame}}\n\\frametitle{{{}}}\n\t{}\n\\end{{frame}}", {i(1), i(2)}))
 
+cs("(", fmt("\\left({}\\right)", {i(1)}))
 cs("date", f(function()
               return os.date "%D"
             end))
@@ -204,6 +205,7 @@ cs("date", f(function()
 --    end),
 --})
 cs("000", t("\\infty"))
+
 --cs("sum", fmt("\\sum_{}^{}", {i(1,"n=0" ), i(2,"\infty")})
 return snippets, autosnippets
 

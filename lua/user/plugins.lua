@@ -67,7 +67,6 @@ return packer.startup(function(use)
     use {'lervag/vimtex', ft = 'tex'}
     use 'nvim-lualine/lualine.nvim'
     use 'kyazdani42/nvim-web-devicons'
-    use 'akinsho/toggleterm.nvim'
     use 'smithbm2316/centerpad.nvim'
     use 'goolord/alpha-nvim'
     use "mfussenegger/nvim-dap"
@@ -94,6 +93,7 @@ return packer.startup(function(use)
   use "folke/todo-comments.nvim"
   -- Editing Support
   use "windwp/nvim-autopairs"
+  use "ThePrimeagen/vim-be-good"
   if PACKER_BOOTSTRAP then
     require("packer").sync()
   end

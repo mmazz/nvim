@@ -1,5 +1,5 @@
 require('user.keymaps')
-require('user.null-ls')
+-- require('user.null-ls')
 require('user.plugins')
 require('user.options')
 require('user.luasnip')

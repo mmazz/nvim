@@ -41,6 +41,8 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 -- Inert --
 keymap({ "i", "v" }, "jk", '<Esc>', opts)
 keymap({ "i", "v" }, "kj", '<Esc>', opts)
+keymap("i", "<c-d>", '<Esc>la', opts)
+keymap("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u", opts)
 
 -- Visual --
 -- Stay in indent mode
@@ -77,7 +79,7 @@ keymap("n",  "<F11>" , function()
 	end
 end, opts)
 --vim.cmd('nmap <buffer> <leader>r <Esc>:w<CR>:!clear;python %<CR>')
-vim.cmd('inoremap <esc> <nop>')
+--vim.cmd('inoremap <esc> <nop>')
 
 -- Latex
 vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
@@ -86,7 +88,6 @@ vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
 vim.api.nvim_create_autocmd("FileType", { pattern = "tex",
     command = [[inoremap <m-i> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>]]})
 
-keymap("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u", opts)
 
 keymap("n", '<leader>gt', vim.lsp.buf.type_definition, opts)
 
