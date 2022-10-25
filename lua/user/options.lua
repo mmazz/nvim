@@ -8,11 +8,13 @@ local options = {
 --completeopt =  { 'menu', 'menuone', 'noinsert', 'noselect' }
   conceallevel = 0,                        -- so that `` is visible in markdown files
   colorcolumn = '80,120',
-  cursorline = true,                       -- highlight the current line
+  cursorline = true,                      -- highlight the current line
+  errorbells = false,
   expandtab = true,                        -- convert tabs to spaces
   fileencoding = "utf-8",                  -- the encoding written to a file
   guifont = "monospace:h17",               -- the font used in graphical neovim applications
-  hlsearch = true,                         -- highlight all matches on previous search pattern
+  hlsearch = false,                         -- highlight all matches on previous search pattern
+  incsearch = true,                         -- highlight all matches on previous search pattern
   ignorecase = true,                       -- ignore case in search patterns
   laststatus = 3,
   mouse = "a",                             -- allow the mouse to be used in neovim
@@ -26,26 +28,21 @@ local options = {
   sidescrolloff = 8,
   showmode = false,                        -- we don't need to see things like -- INSERT -- anymore
   showtabline = 0,                         -- always show tabs
-  shiftwidth = 2,                          -- the number of spaces inserted for each indentation
+  shiftwidth = 4,                          -- the number of spaces inserted for each indentation
   showcmd = false,
   smartcase = true,                        -- smart case
   smartindent = true,                      -- make indenting smarter again
   splitbelow = true,                       -- force all horizontal splits to go below current window
   splitright = true,                       -- force all vertical splits to go to the right of current window
+  softtabstop = 4,
   swapfile = false,                        -- creates a swapfile
   tabstop = 4,                             -- insert 2 spaces for a tab
   termguicolors = true,                    -- set term gui colors (most terminals support this)
   timeoutlen = 1000,                       -- time to wait for a mapped sequence to complete (in milliseconds)
   undofile = true,                         -- enable persistent undo
-  updatetime = 0,                       -- faster completion (4000ms default)
+  updatetime = 50,                       -- faster completion (4000ms default)
   wrap = false,                            -- display lines as one long line
   writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
- --updatetime = 1000 -- Make updates happen faster, tenia 50
-  -- colorcolumn = "80",
-  -- colorcolumn = "120",
-
---    opt.signcolumn = 'yes:2'
-
 }
 for k, v in pairs(options) do
   vim.opt[k] = v
@@ -58,7 +55,7 @@ vim.opt.fillchars:append {
   stl = ' ',
 }
 vim.opt.shortmess:append "c"
-
+vim.opt.isfname:append("@-@") --?
 --vim.g['vimtex_compiler_latexmk'] = {'build_dir' : 'build'}
 vim.g['vimtex_view_method'] = 'zathura'
 vim.g['vimtex_quickfix_mode']= '-1'
@@ -67,74 +64,4 @@ vim.g['tex_conceal'] = 'abdmg'
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set formatoptions-=cro]]) -- TODO this doesn't seem to work
---local opt = vim.opt
---opt.wildignore = "__pycache__"
---opt.wildignore = opt.wildignore + { "*.o", "*~", "*.pyc", "*pycache*" }
---opt.pumblend = 17
---opt.wildmode = "longest:full"
---opt.wildoptions = "pum"
---opt.softtabstop = 2
---opt.incsearch = true -- Makes search act like search in modern browsers
---opt.showmatch = true -- show matching brackets when text indicator is over them
---opt.hidden = true -- I like having buffers stay around
---opt.equalalways = false -- I don't like my windows changing all the time
---opt.autoindent = true -- tenia smartindent
---opt.cindent = true
---opt.softtabstop = 4
---opt.breakindent = true
---opt.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
---opt.linebreak = true
---opt.foldmethod = "marker"
---opt.foldlevel = 0
---opt.modelines = 1
---opt.belloff = "all" -- Just turn the dang bell off
---opt.inccommand = "split"
---opt.swapfile = true -- Living on the edge
---opt.shada = { "!", "'1000", "<50", "s10", "h" }
---opt.formatoptions = opt.formatoptions
---  - "a" -- Auto formatting is BAD.
---  - "t" -- Don't auto format my code. I got linters for that.
---  + "c" -- In general, I like it when comments respect textwidth
---  + "q" -- Allow formatting comments w/ gq
---  - "o" -- O and o, don't continue comments
---  + "r" -- But do continue when pressing enter.
---  + "n" -- Indent past the formatlistpat, not underneath it.
---  + "j" -- Auto-remove comments if possible.
---  - "2" -- I'm not in gradeschool anymore
---opt.joinspaces = false -- Two spaces and grade school, we're done
---opt.fillchars = { eob = "~" }
---opt.signcolumn = 'yes:2'
---vim.o.guicursor = table.concat(
---                      {
---      [[n-i-v-c:block,r-cr:hor20,o:hor50]],
---      [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
---      [[sm:block-blinkwait175-blinkoff150-blinkon175]]
---    }, ','
---                  )
---vim.o.visualbell = true
---vim.o.errorbells = true
---vim.o.sidescroll = 1
---vim.o.titlestring = ' ❐ %t %r %m'
---vim.o.titleold = '%{fnamemodify(getcwd(), ":t")}'
---vim.o.title = true
---vim.o.titlelen = 70
---vim.o.shortmess = table.concat(
---                      {
---      't', -- truncate file messages at start
---      'A', -- ignore annoying swap file messages
---      'o', -- file-read message overwrites previous
---      'O', -- file-read message overwrites previous
---      'T', -- truncate non-file messages in middle
---      'f', -- (file x of x) instead of just (x of x
---      'F', -- Don't give file info when editing a file
---      's',
---      'c',
---      'W' -- Dont show [w] or written when writing
---    }
---                  )
---
---vim.o.foldtext = 'v:lua.folds()'
---
---vim.o.foldlevel = 99
---vim.o.foldlevelstart = 10
---opt.foldmethod = 'syntax'
+

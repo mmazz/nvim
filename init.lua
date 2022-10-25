@@ -18,10 +18,12 @@ require('user.whichkey')
 require('user.colorizer')
 require('user.gitsings')
 require('user.autopairs')
-require('onedark').setup {
-    style = 'darker'
-}
-require('onedark').load()
+require('gruvbox').setup{}
+vim.cmd("colorscheme gruvbox")
+--require('onedark').setup {
+--    style = 'darker'
+--}
+--require('onedark').load()
 require('telescope').setup{}
 --
 --

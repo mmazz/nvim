@@ -94,6 +94,8 @@ return packer.startup(function(use)
   -- Editing Support
   use "windwp/nvim-autopairs"
   use "ThePrimeagen/vim-be-good"
+  use("romgrk/nvim-treesitter-context")
+  use "ellisonleao/gruvbox.nvim"
   if PACKER_BOOTSTRAP then
     require("packer").sync()
   end
