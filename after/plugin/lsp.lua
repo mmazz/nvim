@@ -6,12 +6,12 @@ lsp.ensure_installed({
   'clangd',
   'pyright',
   --'python-lsp-server',
-  'sumneko_lua',
+  'lua_ls',
   'texlab',
 })
 
 -- Fix Undefined global 'vim'
-lsp.configure('sumneko_lua', {
+lsp.configure('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
