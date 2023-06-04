@@ -58,13 +58,18 @@ return require('packer').startup(function(use)
        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
   use 'numToStr/Comment.nvim'
+use {
+    "williamboman/mason.nvim",
+    run = ":MasonUpdate" -- :MasonUpdate updates registry contents
+}
+  -- debug
+  use "mfussenegger/nvim-dap"
+  use "rcarriga/nvim-dap-ui"
+  use "theHamsta/nvim-dap-virtual-text"
+  use "nvim-telescope/telescope-dap.nvim"
 end)
 
  --   use {'lervag/vimtex', ft = 'tex'}
- --   use "mfussenegger/nvim-dap"
-    -- use "theHamsta/nvim-dap-virtual-text"
---    use "rcarriga/nvim-dap-ui"
-  --  use "ravenxrz/DAPInstall.nvim"
 -- Keybinding
  --
 -- Terminal
