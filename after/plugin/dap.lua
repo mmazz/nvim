@@ -28,7 +28,7 @@ end
 -- Recordar de hacer la compilacion con simbolos de debug
 -- cmake agregar set(CMAKE_BUILD_TYPE Debug)
 -- Descargar de https://github.com/microsoft/vscode-cpptools una relsease .vsix
--- poner eso en .local/share/cpptools y hacer chmod +x de bin/OpenDebugAD7
+-- poner eso en .local/share/cpptools, unzip y hacer hacer chmod +x de debugAdapters/bin/OpenDebugAD7
 dap.adapters.cppdbg = {
   id = 'cppdbg',
   type = 'executable',
