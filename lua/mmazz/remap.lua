@@ -50,3 +50,4 @@ vim.keymap.set("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u")
 vim.keymap.set( "v" , ">", '>gv')
 vim.keymap.set( "v" , "<", '<gv')
 
+vim.keymap.set("i","<S-BS>", "<BS>")
