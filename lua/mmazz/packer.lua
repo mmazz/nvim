@@ -67,6 +67,7 @@ use {
   use "rcarriga/nvim-dap-ui"
   use "theHamsta/nvim-dap-virtual-text"
   use "nvim-telescope/telescope-dap.nvim"
+  use "jay-babu/mason-nvim-dap.nvim"
 end)
 
  --   use {'lervag/vimtex', ft = 'tex'}
