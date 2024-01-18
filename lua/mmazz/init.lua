@@ -1,9 +1,9 @@
 require("mmazz.set")
-require("mmazz.packer")
 require("mmazz.remap")
+require("mmazz.lazy_init")
 
 local augroup = vim.api.nvim_create_augroup
-local mmazzGroup = augroup('mmazzGroup', {})
+local mmazzGroup = augroup('mmazz', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
@@ -26,8 +26,10 @@ autocmd('TextYankPost', {
 autocmd({"BufWritePre"}, {
     group = mmazzGroup,
     pattern = "*",
+    -- remove white space at the end
     command = [[%s/\s\+$//e]],
 })
+
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
