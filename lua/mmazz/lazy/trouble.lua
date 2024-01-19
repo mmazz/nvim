@@ -7,16 +7,16 @@ return {
             })
 
             vim.keymap.set("n", "<leader>tt", function()
-                    require("trouble").toggle()
-                end)
+                require("trouble").toggle()
+            end)
 
             vim.keymap.set("n", "[d", function()
-                    require("trouble").next({skip_groups = true, jump = true});
-                end)
+                require("trouble").next({ skip_groups = true, jump = true });
+            end)
 
             vim.keymap.set("n", "]d", function()
-                    require("trouble").previous({skip_groups = true, jump = true});
-                end)
+                require("trouble").previous({ skip_groups = true, jump = true });
+            end)
         end
     },
 }
