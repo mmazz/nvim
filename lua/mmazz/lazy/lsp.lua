@@ -1,7 +1,3 @@
-local function attach(opts)
-end
-
-
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -37,7 +33,13 @@ return {
                 ["clangd"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.clangd.setup {
-                        cmd = {"clangd", "--header-insertion=never"},
+                        cmd = {"clangd", "--header-insertion=never",  "--offset-encoding=utf-16",},
+                    }
+                end,
+                ["texlab"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.clangd.setup {
+                        cmd = {"texlab", "--offset-encoding=utf-16",},
                     }
                 end,
                 ["lua_ls"] = function()
@@ -71,12 +73,13 @@ return {
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'luasnip' }, -- For luasnip users.
-            }, {
-            { name = 'buffer' },
-            })
-
+                    { name = 'nvim_lsp' },
+                    { name = 'luasnip' }, -- For luasnip users.
+                },
+                {
+                    { name = 'buffer' },
+                }
+            )
         })
         vim.diagnostic.config({
             update_in_insert = true, float = {
