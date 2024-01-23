@@ -12,6 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    spec = "mmazz.lazy",
+    spec = "mmazz.plugins",
     change_detection = { notify = false}
 })
