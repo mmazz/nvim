@@ -34,6 +34,9 @@ return {
                     local lspconfig = require("lspconfig")
                     lspconfig.clangd.setup {
                         cmd = {"clangd", "--header-insertion=never",  "--offset-encoding=utf-16",},
+                        keys= {
+                            vim.keymap.set("n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>", opts)
+                        },
                     }
                 end,
                 ["texlab"] = function()
