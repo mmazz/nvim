@@ -32,31 +32,33 @@ return {
                 end,
                 ["clangd"] = function()
                     local lspconfig = require("lspconfig")
+
                     lspconfig.clangd.setup {
-                        cmd = {"clangd", "--header-insertion=never",  "--offset-encoding=utf-16",},
+                        cmd = {"clangd", "--header-insertion=never"},
+                        filetypes = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
                         keys= {
-                            vim.keymap.set("n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>", opts)
+                           vim.keymap.set("n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>")
                         },
                     }
                 end,
-                ["texlab"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.clangd.setup {
-                        cmd = {"texlab", "--offset-encoding=utf-16",},
-                    }
-                end,
-                ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
-                        settings = {
-                            Lua = {
-                                diagnostics = {
-                                    globals = { "vim" }
-                                }
-                            }
-                        }
-                    }
-                end,
+               ["texlab"] = function()
+                   local lspconfig = require("lspconfig")
+                   lspconfig.texlab.setup {
+                       cmd = {"texlab", "--offset-encoding=utf-16"},
+                   }
+               end,
+               ["lua_ls"] = function()
+                   local lspconfig = require("lspconfig")
+                   lspconfig.lua_ls.setup {
+                       settings = {
+                           Lua = {
+                               diagnostics = {
+                                   globals = { "vim" }
+                               }
+                           }
+                       }
+                   }
+               end,
             }
         })
         local cmp = require'cmp'

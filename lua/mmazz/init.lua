@@ -37,6 +37,9 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
         -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         -- vim.keymap.set("n", 'gi', vim.lsp.buf.implementation, opts)
+        --
+        vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
         vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set("n", "<leader>ls", function() vim.lsp.buf.document_symbol() end, opts)
         vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
