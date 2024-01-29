@@ -48,6 +48,7 @@ vim.keymap.set("i", "<c-d>", '<Esc>la')
 -- Latex
 vim.keymap.set("n", "<leader>o", "<Esc>:setlocal spell! spelllang=es,en_us<CR>")
 vim.keymap.set("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u")
+
 vim.keymap.set( "v" , ">", '>gv')
 vim.keymap.set( "v" , "<", '<gv')
 

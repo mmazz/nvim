@@ -23,7 +23,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "clangd",
- --               "pyright",
+                "pyright",
                 "texlab",
             },
             handlers = {
@@ -46,6 +46,20 @@ return {
                     lspconfig.texlab.setup {
                         cmd = {"texlab"}
                     }
+                end,
+
+                -- Creo que funciona...
+                ["ltex"] = function()
+                      require('lspconfig').ltex.setup({
+                      cmd = { "ltex-ls" },
+                      filetypes = { "tex", "markdown", "md", "pandoc"},
+                      flags = { debounce_text_changes = 300 },
+                      settings = {
+                        ltex = {
+                          language = "es-AR"
+                        }
+                      },
+                    })
                 end,
                ["lua_ls"] = function()
                    local lspconfig = require("lspconfig")
@@ -80,10 +94,10 @@ return {
             sources = cmp.config.sources({
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' }, -- For luasnip users.
-                },
-                {
-                    { name = 'buffer' },
-                }
+            },
+                    {
+                        { name = 'buffer' },
+                    }
             )
         })
         vim.diagnostic.config({

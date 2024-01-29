@@ -34,4 +34,5 @@ vim.opt.colorcolumn = "80"
 --vim.opt.ignorecase = true
 --vim.opt.smartcase = true
 
-
+vim.opt.spell = true
+vim.opt.spelllang = { 'es', 'en_us' }
