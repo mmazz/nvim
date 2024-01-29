@@ -41,12 +41,12 @@ return {
                         },
                     }
                 end,
-               ["texlab"] = function()
-                   local lspconfig = require("lspconfig")
-                   lspconfig.texlab.setup {
-                       cmd = {"texlab", "--offset-encoding=utf-16"},
-                   }
-               end,
+                ["texlab"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.texlab.setup {
+                        cmd = {"texlab"}
+                    }
+                end,
                ["lua_ls"] = function()
                    local lspconfig = require("lspconfig")
                    lspconfig.lua_ls.setup {
