@@ -99,113 +99,165 @@ local function cs(trigger, nodes, opts) --{{{
 	table.insert(target_table, snippet) -- insert snippet into appropriate table
 end --}}}
 
--- todo
--- non enumerate equations option
-cs({trig="(%w)_(%d)", regTrig=true, hidden=true},{
-    f(function(_, snip)
-    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
-    end),
-})
 
-cs({trig="(%w)_(%d%d)", regTrig=true, hidden=true},{
-    f(function(_, snip)
-    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
-    end),
-})
-cs({trig="(%w)_(%w)", regTrig=true, hidden=true},{
-    f(function(_, snip)
-    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
-    end),
-})
-cs({trig="(%w)_(%w%w)", regTrig=true, hidden=true},{
-    f(function(_, snip)
-    return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
-    end),
-})
+cs("beg", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)}))
 
-cs({trig="sqrt(%w)", regTrig=true, hidden=true},{
-    f(function(_, snip)
-    return "$"..snip.captures[1].."^{2}$"
-    end),
-})
-cs({trig="cube(%w)", regTrig=true, hidden=true},{
-    f(function(_, snip)
-    return "$"..snip.captures[1].."^{3}$"
-    end),
-})
-cs({trig="pow(%w)", regTrig=true, hidden=true},{
-    f(function(arg, snip)
-    return "$"..snip.captures[1].."^{"..arg[1][1].."}$"
-    end),
-})
-cs("im", fmt("${}$",{i(1)}))
-cs("dm", fmt("\\[\n{}\n.\\]",{i(1)}))
-cs("begin", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)}))
-cs("align", fmt("\\begin{{align}}\n \t{}\n\\end{{align}}", {i(1)}))
-cs("align*", fmt("\\begin{{align*}}\n \t{}\n\\end{{align*}}", {i(1)}))
-cs("equation", fmt("\\begin{{equation}}\n \t{}\n\\end{{equation}}", {i(1)}))
-cs("equation*", fmt("\\begin{{equation*}}\n \t{}\n\\end{{equation*}}", {i(1)}))
-cs("enumerate", {	t({"\\begin{enumerate}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{enumerate}"}), i(0)})
+
+cs("align", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {c(1, {t("align"), t("align*")}),i(2), rep(1)}))
+cs("equa", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {c(1, {t("equation"), t("equation*")}),i(2), rep(1)}))
+
+cs("enum", {	t({"\\begin{enumerate}",	"\t\\item "}), i(1), d(2, rec_ls, {}),	t({"", "\\end{enumerate}"}), i(0)})
+
+
+-- TODO: Sacar el espacio vacio si es que quiero el choice sin caption?
 cs("fig", fmt([[
 \begin{{figure}}[h!]
     \centering
     \includegraphics[scale={}]{{{}}}
-    \caption{{{}}}
-    \label{{fig:{}}}
+    {}
 \end{{figure}}]],
-    { i(1), i(2), i(3), rep(2)}))
-cs("fig*", fmt([[
-\begin{{figure}}[h!]
-    \centering
-    \includegraphics[scale={}]{{{}}}
-\end{{figure}}]],
-    { i(1), i(2)}))
-
---cs("2fig*", fmt([[
---\begin{{figure}}[h!]
---    \centering
---    \includegraphics[scale={}]{{{}}}{}
---\end{{figure}}]],
---    { i(1), i(2), c(3,{sn(1, {t("\\caption{{"),i(1),t("}}")}),t("")}  )}))
---
-cs("columns", fmt([[
+    { i(1), i(2), c(3,{i(3), fmt("\n\\caption{{{}}}\n\t\\label{{fig:{}}}", {i(1), i(2)})})}))
+local columnWidth = function(index)
+    return f(function(arg)
+        return tostring(100-tonumber(arg[1][1]))
+    end, {index})
+end
+-- TODO, al poner el primer numero se deja de actualizar el siguiente y medio que se rompe
+cs("colu", fmt([[
 \begin{{columns}}
     \column{{0.{}\textwidth}}
         {}
     \column{{0.{}\textwidth}}
         {}
 \end{{columns}}]],
-    {i(1,"5"), i(2),i(3,"5"),i(4)}))
+    {i(1,"5"), i(2), columnWidth(1), i(3)}))
 
-cs("md", fmt( "\\begin{{mdframed}}[backgroundcolor=frenchblue!20]\n\t{}\n\\end{{mdframed}}", { i(1)}))
+cs("md", fmt( "\\begin{{mdframed}}[backgroundcolor={}!20]\n\t{}\n\\end{{mdframed}}", { c(1, {t("frenchblue"),i(1)}), i(2)}))
 cs("item", {	t({"\\begin{itemize}",	"\t\\item "}),
     i(1), d(2, rec_ls, {}),
     t({"", "\\end{itemize}"}), i(0)})
 
---s("\caption{{{}}}\n\label{{fig:{}}}",i(3), rep(2))
-cs("//", fmt("\\frac{{{}}}{{{}}}", {i(1), i(2)}))
+
+--math mode
+cs("mm", fmt("${}$",{i(1)}))
+cs("dm", fmt("\\[\n{}\n.\\]",{i(1)}))
+-- todo
+-- non enumerate equations option
+--
+--
+-- TODO: poner los que tienen doble argumento en uno solo
+cs({trig="(%w)_(%d)", regTrig=true, hidden=true},{
+    c(1,{
+        f(function(_, snip)
+            return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
+        end),
+        f(function(_, snip)
+            return snip.captures[1].."_{".. snip.captures[2].."}"
+        end),} ),
+})
+cs({trig="(%w)_(%d%d)", regTrig=true, hidden=true},{
+    c(1,{
+        f(function(_, snip)
+            return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
+        end),
+        f(function(_, snip)
+            return snip.captures[1].."_{".. snip.captures[2].."}"
+        end),} ),
+})
+cs({trig="(%w)_(%w)", regTrig=true, hidden=true},{
+    c(1,{
+        f(function(_, snip)
+            return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
+        end),
+        f(function(_, snip)
+            return snip.captures[1].."_{".. snip.captures[2].."}"
+        end),} ),
+})
+
+cs({trig="(%w)_(%w%w)", regTrig=true, hidden=true},{
+    c(1,{
+        f(function(_, snip)
+            return "$"..snip.captures[1].."_{".. snip.captures[2].."}$"
+        end),
+        f(function(_, snip)
+            return snip.captures[1].."_{".. snip.captures[2].."}"
+        end),} ),
+})
+
+
+
+cs({trig="sqrt(%w)", regTrig=true, hidden=true},{
+    c(1,{
+        f(function(_, snip)
+            return "$"..snip.captures[1].."^{2}$"
+        end),
+        f(function(_, snip)
+            return snip.captures[1].."^{2}"
+        end),} ),
+})
+cs({trig="cube(%w)", regTrig=true, hidden=true},{
+    c(1,{
+        f(function(_, snip)
+            return "$"..snip.captures[1].."^{3}$"
+        end),
+        f(function(_, snip)
+            return snip.captures[1].."^{3}"
+        end),} ),
+})
+
+cs({trig="pow(%w)(%d)", regTrig=true, hidden=true},{
+    c(1,{
+        f(function(_, snip)
+            return "$"..snip.captures[1].."^{"..snip.captures[2].."}$"
+        end),
+        f(function(_, snip)
+            return snip.captures[1].."^{"..snip.captures[2].."}"
+        end),} ),
+})
+
+cs("frame", fmt("\\begin{{frame}}\n\\frametitle{{{}}}\n\t{}\n\\end{{frame}}", {i(1), i(2)}))
+cs("frac", fmt("\\frac{{{}}}{{{}}}", {i(1), i(2)}))
 cs("bf", fmt("\\textbf{{{}}}", {i(1)}))
 cs("it", fmt("\\textit{{{}}}", {i(1)}))
 cs("tt", fmt("\\texttt{{{}}}", {i(1)}))
-cs("frame", fmt("\\begin{{frame}}\n\\frametitle{{{}}}\n\t{}\n\\end{{frame}}", {i(1), i(2)}))
 
 cs("(", fmt("\\left({}\\right)", {i(1)}))
+cs("[", fmt("\\left[{}\\right]", {i(1)}))
+
 cs("date", f(function()
               return os.date "%D"
             end))
 
---cs({trig="(%w)hat", regTrig=true, hidden=true},{
---    f(function(_, snip)
---    return "\hat{"..snip.captures[1].."}"
---    end),
---})
---cs({trig="(%w)bar", regTrig=true, hidden=true},{
---    f(function(_, snip)
---    return "\overline{"..snip.captures[1].."}"
---    end),
---})
-cs("000", t("\\infty"))
 
---cs("sum", fmt("\\sum_{}^{}", {i(1,"n=0" ), i(2,"\infty")})
+
+cs("inf", t("\\infty"))
+
+
+
+cs("int", fmt("\\int{}^{}", {i(1,"0" ), i(2,"\\infty")}))
+cs("sum", fmt("\\sum_{}^{}", {i(1,"0" ), i(2,"\\infty")}))
+cs("lim", fmt("\\lim_{{{} \\to {}}}", {i(1,"0" ), i(2,"\\infty")}))
+
+
+cs({trig="(%w)hat", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "\\hat{"..snip.captures[1].."}"
+    end),
+})
+cs({trig="(%w)bar", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "\\bar{"..snip.captures[1].."}"
+    end),
+})
+cs({trig="(%w)over", regTrig=true, hidden=true},{
+    f(function(_, snip)
+    return "\\overline{"..snip.captures[1].."}"
+    end),
+})
+
+
+cs("bra", fmt("\\bra{}", {i(1)}))
+cs("ket", fmt("\\ket{}", {i(1)}))
+cs("braket", fmt("\\braket{}", {i(1)}))
 return snippets, autosnippets
 
