@@ -1,4 +1,3 @@
-print("Heeeeeeello")
 vim.g.mapleader = " "
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
