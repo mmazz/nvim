@@ -101,6 +101,7 @@ end --}}}
 
 
 cs("beg", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {i(1), i(2), rep(1)}))
+cs("spli", fmt("\\begin{{split}}\n \t{}&{} \\\\ \n\t&{}\n\\end{{split}}", {i(1), i(2),i(3)}))
 
 
 cs("align", fmt("\\begin{{{}}}\n \t{}\n\\end{{{}}}", {c(1, {t("align"), t("align*")}),i(2), rep(1)}))
