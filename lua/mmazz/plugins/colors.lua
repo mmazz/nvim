@@ -14,6 +14,12 @@ end
 -- color
 return {
     {
+        'norcalli/nvim-colorizer.lua',
+        config = function()
+            require("colorizer").setup()
+        end
+    },
+    {
         "folke/tokyonight.nvim",
         config = function()
             require("tokyonight").setup({
@@ -26,6 +32,11 @@ return {
                     sidebars = "dark",
                     floats = "dark",
                 },
+                on_highlights = function(hl, c)
+                  hl.DiagnosticUnnecessary = {
+                    fg = c.comment,
+                  }
+                end,
             })
             --ColorMyPencils("tokyonight")
         end
