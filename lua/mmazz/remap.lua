@@ -25,7 +25,7 @@ vim.keymap.set("n", "<leader>F", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
-vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+--vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 -- This is going to get me cancelled
@@ -38,7 +38,7 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "<C-p>", "<Esc>:!opout <c-r>%<CR><CR>")
-vim.keymap.set("n", "<leader>c", "<Esc>:w! | !compiler '<c-r>%'<CR>")
+--vim.keymap.set("n", "<leader>c", "<Esc>:w! | !compiler '<c-r>%'<CR>")
 
 vim.keymap.set("n", "<c-f>", '<Esc>/')
 
