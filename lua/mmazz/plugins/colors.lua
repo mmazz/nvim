@@ -47,7 +47,7 @@ return {
             require("gruvbox").setup({
 
             })
-            ColorMyPencils("gruvbox")
+            --ColorMyPencils("gruvbox")
         end
 
 
@@ -60,6 +60,14 @@ return {
             })
  --           ColorMyPencils()
         end
+    },
+    {
+        'arcticicestudio/nord-vim',
+        config = function()
+            ColorMyPencils("nord")
+        end
+
+
     },
 }
 

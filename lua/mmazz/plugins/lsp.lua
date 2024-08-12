@@ -24,7 +24,7 @@ return {
                 "lua_ls",
                 "clangd",
                 "pyright",
-                "texlab",
+              --  "texlab",
             },
             handlers = {
                 function(server_name)
@@ -41,26 +41,26 @@ return {
                         },
                     }
                 end,
-                ["texlab"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.texlab.setup {
-                        cmd = {"texlab"}
-                    }
-                end,
+       --         ["texlab"] = function()
+       --             local lspconfig = require("lspconfig")
+       --             lspconfig.texlab.setup {
+       --                 cmd = {"texlab"}
+       --             }
+       --         end,
 
-                -- Creo que funciona...
-                ["ltex"] = function()
-                      require('lspconfig').ltex.setup({
-                      cmd = { "ltex-ls" },
-                      filetypes = { "tex", "markdown", "md", "pandoc"},
-                      flags = { debounce_text_changes = 300 },
-                      settings = {
-                        ltex = {
-                          language = "es-AR"
-                        }
-                      },
-                    })
-                end,
+        --        -- Creo que funciona...
+        --        ["ltex"] = function()
+        --              require('lspconfig').ltex.setup({
+        --              cmd = { "ltex-ls" },
+        --              filetypes = { "tex", "markdown", "md", "pandoc"},
+        --              flags = { debounce_text_changes = 300 },
+        --              settings = {
+        --                ltex = {
+        --                  language = "es-AR"
+        --                }
+        --              },
+        --            })
+        --        end,
                ["lua_ls"] = function()
                    local lspconfig = require("lspconfig")
                    lspconfig.lua_ls.setup {

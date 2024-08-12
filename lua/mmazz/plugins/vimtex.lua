@@ -9,6 +9,7 @@ return {
     vim.g['vimtex_quickfix_mode'] = 0              -- suppress error reporting on save and build
     vim.g['vimtex_mappings_enabled'] = 0           -- Ignore mappings
     vim.g['vimtex_indent_enabled'] = 0             -- Auto Indent
+    vim.g['vimtex_syntax_nospell_comments'] = 1
     vim.g['tex_flavor'] = 'latex'                  -- how to read tex files
     vim.g['tex_indent_items'] = 0                  -- turn off enumerate indent
     vim.g['tex_indent_brace'] = 0                  -- turn off brace indent
@@ -30,3 +31,5 @@ return {
 --      i = { "<cmd>VimtexTocOpen<CR>", "index" },
 --      v = { "<cmd>VimtexView<CR>", "view" },
 --      z = { "<cmd>ZenMode<CR>", "zen" },
+--
+
