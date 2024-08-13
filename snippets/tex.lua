@@ -222,6 +222,9 @@ cs("bf", fmt("\\textbf{{{}}}", {i(1)}))
 cs("it", fmt("\\textit{{{}}}", {i(1)}))
 cs("tt", fmt("\\texttt{{{}}}", {i(1)}))
 
+-- elegir si es con $ o sin. Aca habria que usar treesitter? para saber en que contexto estoy?
+cs("norm", fmt("$\\lVert {} \\rVert$", {i(1)}))
+cs("mod", fmt("\\text{{ mod }}{}", {i(1)}))
 cs("(", fmt("\\left({}\\right)", {i(1)}))
 cs("[", fmt("\\left[{}\\right]", {i(1)}))
 
