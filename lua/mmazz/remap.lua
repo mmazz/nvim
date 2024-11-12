@@ -1,4 +1,15 @@
 vim.g.mapleader = " "
+-- Insert mode mappings in Neovim Lua
+
+vim.keymap.set({'n', 'v', 'i'}, '<Up>', '<Nop>', { noremap = true, silent = true })
+vim.keymap.set({'n', 'v', 'i'}, '<Down>', '<Nop>', { noremap = true, silent = true })
+vim.keymap.set({'n', 'v', 'i'}, '<Left>', '<Nop>', { noremap = true, silent = true })
+vim.keymap.set({'n', 'v', 'i'}, '<Right>', '<Nop>', { noremap = true, silent = true })
+
+vim.keymap.set('i', '<C-k>', '<C-O>gk', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-j>', '<C-O>gj', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-h>', '<C-O>h', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-l>', '<C-O>l', { noremap = true, silent = true })
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
@@ -46,7 +57,7 @@ vim.keymap.set("i", "<c-d>", '<Esc>la')
 
 -- Latex
 vim.keymap.set("n", "<leader>o", "<Esc>:setlocal spell! spelllang=es,en_us<CR>")
-vim.keymap.set("i", "<c-o>", "<c-g>u<Esc>[s1z=`]a<c-g>u")
+vim.keymap.set("i", "<c-O>", "<c-g>u<Esc>[s1z=`]a<c-g>u")
 
 vim.keymap.set( "v" , ">", '>gv')
 vim.keymap.set( "v" , "<", '<gv')
