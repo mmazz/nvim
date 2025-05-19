@@ -1,6 +1,6 @@
 vim.opt.guicursor = "n-v-c-i:block"
 --vim.opt.guicursor = ""
-
+vim.opt.encoding = "utf-8"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
