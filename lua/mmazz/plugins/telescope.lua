@@ -3,7 +3,7 @@ return {
 
 	dependencies = {
         "nvim-telescope/telescope-ui-select.nvim",
-		"plenary"
+		"nvim-lua/plenary.nvim"
 	},
 
     config = function()
