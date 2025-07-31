@@ -28,52 +28,54 @@ return {
             },
             handlers = {
                 function(server_name)
-                    require("lspconfig")[server_name].setup{}
+                    require("lspconfig")[server_name].setup {}
                 end,
-                ["clangd"] = function()
-                    local lspconfig = require("lspconfig")
 
-                    lspconfig.clangd.setup {
-                        cmd = {"clangd", "--header-insertion=never"},
+                ["clangd"] = function()
+                    require("lspconfig").clangd.setup {
+                        cmd = { "clangd", "--header-insertion=never" },
                         filetypes = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
-                        keys= {
-                           vim.keymap.set("n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>")
-                        },
+                        on_attach = function(_, bufnr)
+                            vim.keymap.set("n", "gs", "<cmd>ClangdSwitchSourceHeader<CR>", { buffer = bufnr })
+                        end
                     }
                 end,
-       --         ["texlab"] = function()
-       --             local lspconfig = require("lspconfig")
-       --             lspconfig.texlab.setup {
-       --                 cmd = {"texlab"}
-       --             }
-       --         end,
 
-        --        -- Creo que funciona...
-        --        ["ltex"] = function()
-        --              require('lspconfig').ltex.setup({
-        --              cmd = { "ltex-ls" },
-        --              filetypes = { "tex", "markdown", "md", "pandoc"},
-        --              flags = { debounce_text_changes = 300 },
-        --              settings = {
-        --                ltex = {
-        --                  language = "es-AR"
-        --                }
-        --              },
-        --            })
-        --        end,
-               ["lua_ls"] = function()
-                   local lspconfig = require("lspconfig")
-                   lspconfig.lua_ls.setup {
-                       settings = {
-                           Lua = {
-                               diagnostics = {
-                                   globals = { "vim" }
-                               }
-                           }
-                       }
-                   }
-               end,
+                ["lua_ls"] = function()
+                    require("lspconfig").lua_ls.setup {
+                        settings = {
+                            Lua = {
+                                diagnostics = {
+                                    globals = { "vim" }
+                                }
+                            }
+                        }
+                    }
+                end,
+
+                ["pyright"] = function()
+                    require("lspconfig").pyright.setup {}
+                end,
+
+                ["texlab"] = function()
+                    require("lspconfig").texlab.setup {
+                        settings = {
+                            texlab = {
+                                build = {
+                                    executable = "latexmk",
+                                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                                    onSave = true,
+                                },
+                                forwardSearch = {
+                                    executable = "zathura",
+                                    args = { "--synctex-forward", "%l:1:%f", "%p" },
+                                }
+                            }
+                        }
+                    }
+                end,
             }
+
         })
         local cmp = require'cmp'
         local cmp_select = {behavior = cmp.SelectBehavior.Select}

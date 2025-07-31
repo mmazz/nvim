@@ -8,6 +8,8 @@ local mmazzGroup = augroup('mmazz', {})
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
 
+-- Para recargar un modulo lua, por si lo estoy modificando o algo
+-- por ahora no lo uso.
 function R(name)
     require("plenary.reload").reload_module(name)
 end
@@ -18,7 +20,7 @@ autocmd('TextYankPost', {
     callback = function()
         vim.highlight.on_yank({
             higroup = 'IncSearch',
-            timeout = 40,
+            timeout = 150,
         })
     end,
 })
@@ -26,7 +28,6 @@ autocmd('TextYankPost', {
 autocmd({"BufWritePre"}, {
     group = mmazzGroup,
     pattern = "*",
-    -- remove white space at the end
     command = [[%s/\s\+$//e]],
 })
 
@@ -50,7 +51,13 @@ autocmd('LspAttach', {
         vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     end
 })
-
+autocmd("FileType", {
+  pattern = { "tex", "markdown", "pandoc" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { "es", "en_us" }
+  end
+})
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25

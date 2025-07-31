@@ -1,6 +1,5 @@
-vim.opt.guicursor = "n-v-c-i:block"
---vim.opt.guicursor = ""
-vim.opt.encoding = "utf-8"
+--vim.opt.guicursor = "n-v-c-i:block"
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -28,11 +27,6 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
---vim.opt.clipboard = "unnamedplus"
---vim.opt.completeopt = 'menuone,noselect'
---vim.opt.cursorline = true
---vim.opt.ignorecase = true
---vim.opt.smartcase = true
 
 vim.opt.spell = true
 vim.opt.spelllang = { 'es', 'en_us' }
