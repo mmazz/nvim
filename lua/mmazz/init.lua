@@ -48,7 +48,7 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
-        vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+ --       vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     end
 })
 autocmd("FileType", {
@@ -56,6 +56,9 @@ autocmd("FileType", {
   callback = function()
     vim.opt_local.spell = true
     vim.opt_local.spelllang = { "es", "en_us" }
+    vim.opt_local.textwidth = 80
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
   end
 })
 vim.g.netrw_browse_split = 0

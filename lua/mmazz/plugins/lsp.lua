@@ -56,24 +56,34 @@ return {
                 ["pyright"] = function()
                     require("lspconfig").pyright.setup {}
                 end,
-
                 ["texlab"] = function()
-                    require("lspconfig").texlab.setup {
-                        settings = {
-                            texlab = {
-                                build = {
-                                    executable = "latexmk",
-                                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-                                    onSave = true,
-                                },
-                                forwardSearch = {
-                                    executable = "zathura",
-                                    args = { "--synctex-forward", "%l:1:%f", "%p" },
-                                }
-                            }
-                        }
-                    }
+                  local lspconfig = require("lspconfig")
+                  local util = lspconfig.util
+                  lspconfig.texlab.setup({
+                    root_dir = util.root_pattern("main.tex", ".git", "latexmkrc"),
+                    settings = {
+                      texlab = {
+                        build = {
+                          executable = "latexmk",
+                          args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                          onSave = true,
+                          forwardSearchAfter = true,
+                        },
+                        forwardSearch = {
+                          executable = "zathura",
+                          args = { "--synctex-forward", "%l:1:%f", "%p" },
+                        },
+                        chktex = {
+                          onEdit = false,
+                          onOpenAndSave = true,
+                        },
+                        diagnosticsDelay = 300,
+                        rootDirectory = nil,
+                      },
+                    },
+                  })
                 end,
+
             }
 
         })

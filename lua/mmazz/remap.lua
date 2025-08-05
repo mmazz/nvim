@@ -1,5 +1,7 @@
 vim.g.mapleader = " "
 -- Insert mode mappings in Neovim Lua
+vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true })
+vim.keymap.set("i", "<C-H>", "<C-w>", { noremap = true })
 
 vim.keymap.set({'n', 'v', 'i'}, '<Up>', '<Nop>', { noremap = true, silent = true })
 vim.keymap.set({'n', 'v', 'i'}, '<Down>', '<Nop>', { noremap = true, silent = true })
@@ -62,3 +64,37 @@ vim.keymap.set( "v" , ">", '>gv')
 vim.keymap.set( "v" , "<", '<gv')
 
 vim.keymap.set("i","<S-BS>", "<BS>")
+
+
+-- Compilar LaTeX con latexmk
+vim.keymap.set("n", "<leader>lb", "<cmd>!latexmk -pdf -interaction=nonstopmode %<CR>", { desc = "Build LaTeX" })
+
+-- Abrir PDF con Zathura (en background)
+vim.keymap.set("n", "<leader>lv", function()
+  local pdf = vim.fn.expand("%:r") .. ".pdf"
+  vim.cmd("!zathura " .. pdf .. " &")
+end, { desc = "View PDF with Zathura" })
+
+-- Toggle Aerial outline
+
+-- Abrir Zathura sincronizado en la línea actual (SyncTeX forward)
+vim.api.nvim_create_user_command("ZathuraSync", function()
+  local texfile = vim.fn.expand("%:p")
+  local pdf = vim.fn.expand("%:p:r") .. ".pdf"
+  local line = vim.fn.line(".")
+  local cmd = string.format("silent !zathura --synctex-forward %d:1:%s %s &", line, texfile, pdf)
+  vim.cmd(cmd)
+end, { desc = "Open Zathura at current line with synctex" })
+
+vim.keymap.set("n", "<leader>zs", "<cmd>ZathuraSync<CR>", { desc = "Zathura SyncTeX" })
+
+-- Opcional: Compilar y abrir sincronizado en un paso
+vim.keymap.set("n", "<leader>lz", function()
+  local texfile = vim.fn.expand("%:p")
+  local pdf = vim.fn.expand("%:p:r") .. ".pdf"
+  local line = vim.fn.line(".")
+  vim.cmd("!latexmk -pdf -interaction=nonstopmode " .. texfile)
+  vim.cmd(string.format("silent !zathura --synctex-forward %d:1:%s %s &", line, texfile, pdf))
+end, { desc = "Compile and open PDF with SyncTeX" })
+vim.keymap.set("n", "<leader>at", "<cmd>AerialToggle<CR>", { desc = "Toggle Aerial (outline)" })
+
